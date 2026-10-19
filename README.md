@@ -185,7 +185,7 @@ The objective of ROOMORA is to simplify the room-finding process by connecting s
 
 👨‍💻 Author
 
-Your Name
+Ayush Soni
 
 Final-Year Student Project
 

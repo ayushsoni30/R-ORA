@@ -1,3 +1,5 @@
+from datetime import date
+
 from pydantic import BaseModel, Field
 
 
@@ -7,3 +9,4 @@ class RoomCreate(BaseModel):
     location: str = Field(min_length=2, max_length=200)
     monthly_rent: float = Field(gt=0)
     max_occupants: int = Field(ge=1, le=20)
+    expected_vacancy_date: date | None = None

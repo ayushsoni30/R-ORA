@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-
+#data validation for user registration and login
 class UserRegister(BaseModel):
     full_name: str = Field(min_length=2, max_length=100)
     email: EmailStr

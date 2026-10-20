@@ -6,13 +6,17 @@ from fastapi import HTTPException
 from bson.errors import InvalidId
 from fastapi import APIRouter, HTTPException, status
 from app.schemas.room import RoomCreate
-
+from app.api.dependencies import get_current_user
+from fastapi import Depends
 router = APIRouter(prefix="/api/rooms", tags=["Rooms"])
 
 
 # CREATE ROOM API
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_room(room: RoomCreate):
+async def create_room(
+    room: RoomCreate,
+    current_user: dict = Depends(get_current_user),
+):
     new_room = {
     "title": room.title,
     "description": room.description,
@@ -20,6 +24,7 @@ async def create_room(room: RoomCreate):
     "monthly_rent": room.monthly_rent,
     "max_occupants": room.max_occupants,
     "status": "available",
+    "owner_id": current_user["_id"],
     "expected_vacancy_date": (
         room.expected_vacancy_date.isoformat()
         if room.expected_vacancy_date
@@ -42,6 +47,7 @@ async def create_room(room: RoomCreate):
             "expected_vacancy_date": new_room["expected_vacancy_date"],
         },
     }
+    
 # SEARCH ROOMS BY LOCATION API
 @router.get("/search")
 async def search_rooms(location: str):

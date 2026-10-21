@@ -14,9 +14,15 @@ router = APIRouter(prefix="/api/rooms", tags=["Rooms"])
 # CREATE ROOM API
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_room(
+           
     room: RoomCreate,
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user["role"] != "owner":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only owners can create rooms",
+        )
     new_room = {
     "title": room.title,
     "description": room.description,
@@ -132,8 +138,16 @@ async def get_room_by_id(room_id: str):
     }
     # UPDATE ROOM API
 @router.put("/{room_id}")
-async def update_room(room_id: str, room: RoomCreate):
-    
+async def update_room(
+    room_id: str,
+    room: RoomCreate,
+    current_user: dict = Depends(get_current_user),
+):
+    if current_user["role"] != "owner":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only owners can update rooms",
+        )
 
     try:
         room_object_id = ObjectId(room_id)
@@ -144,8 +158,11 @@ async def update_room(room_id: str, room: RoomCreate):
         )
 
     existing_room = await database.rooms.find_one(
-        {"_id": room_object_id}
-    )
+    {
+        "_id": room_object_id,
+        "owner_id": current_user["_id"],
+    }
+)
 
     if existing_room is None:
         raise HTTPException(
@@ -182,7 +199,17 @@ async def update_room(room_id: str, room: RoomCreate):
     }
     # DELETE ROOM API
 @router.delete("/{room_id}")
-async def delete_room(room_id: str):
+async def delete_room(
+    room_id: str,
+    current_user: dict = Depends(get_current_user),
+):
+    if current_user["role"] != "owner":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only owners can delete rooms",
+        )
+
+
 
     try:
         room_object_id = ObjectId(room_id)
@@ -193,8 +220,11 @@ async def delete_room(room_id: str):
         )
 
     existing_room = await database.rooms.find_one(
-        {"_id": room_object_id}
-    )
+    {
+        "_id": room_object_id,
+        "owner_id": current_user["_id"],
+    }
+)
 
     if existing_room is None:
         raise HTTPException(
@@ -212,7 +242,16 @@ async def delete_room(room_id: str):
     }
     # UPDATE ROOM STATUS API
 @router.patch("/{room_id}/status")
-async def update_room_status(room_id: str, room_status: str):
+async def update_room_status(
+    room_id: str,
+    room_status: str,
+    current_user: dict = Depends(get_current_user),
+):
+    if current_user["role"] != "owner":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only owners can update room status",
+        )
 
     if room_status not in ["available", "occupied"]:
         raise HTTPException(
@@ -227,12 +266,13 @@ async def update_room_status(room_id: str, room_status: str):
             status_code=400,
             detail="Invalid room ID",
         )
-
     result = await database.rooms.update_one(
-        {"_id": room_object_id},
-        {"$set": {"status": room_status}},
-    )
-
+    {
+        "_id": room_object_id,
+        "owner_id": current_user["_id"],
+    },
+    {"$set": {"status": room_status}},
+)
     if result.matched_count == 0:
         raise HTTPException(
             status_code=404,

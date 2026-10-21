@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
-from app.api.routes.auth import router as auth_router
-from app.api.routes.rooms import router as rooms_router
 
 from fastapi import FastAPI
 
+from app.api.routes.auth import router as auth_router
+from app.api.routes.rooms import router as rooms_router
+from app.api.routes.bookings import router as bookings_router
 from app.core.config import settings
 from app.db.mongodb import (
     connect_to_mongodb,
@@ -23,8 +24,11 @@ app = FastAPI(
     debug=settings.DEBUG,
     lifespan=lifespan,
 )
+
 app.include_router(auth_router)
 app.include_router(rooms_router)
+app.include_router(bookings_router)
+
 
 @app.get("/")
 async def root():

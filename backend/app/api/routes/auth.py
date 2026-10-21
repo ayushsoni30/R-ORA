@@ -34,7 +34,7 @@ async def register_user(user: UserRegister):
         "full_name": user.full_name,
         "email": str(user.email),
         "password": hashed_password,
-        "role": "student",
+        "role": user.role,
     }
 
     result = await database.users.insert_one(new_user)
@@ -45,7 +45,7 @@ async def register_user(user: UserRegister):
             "id": str(result.inserted_id),
             "full_name": user.full_name,
             "email": str(user.email),
-            "role": "student",
+            "role": user.role,
         },
     }
 

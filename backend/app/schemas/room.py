@@ -1,6 +1,7 @@
 from datetime import date
+from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class RoomCreate(BaseModel):
@@ -10,3 +11,14 @@ class RoomCreate(BaseModel):
     monthly_rent: float = Field(gt=0)
     max_occupants: int = Field(ge=1, le=20)
     expected_vacancy_date: date | None = None
+
+    @field_validator("expected_vacancy_date")
+    @classmethod
+    def validate_future_date(cls, v: date | None) -> date | None:
+        if v is not None and v < date.today():
+            raise ValueError("Expected vacancy date cannot be in the past")
+        return v
+
+
+class RoomStatusUpdate(BaseModel):
+    status: Literal["available", "occupied"]

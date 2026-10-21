@@ -6,53 +6,51 @@ ROOMORA is a room rental platform designed to help students, families, and short
 
 ✨ Features
 
-- 🔐 Authentication: Secure registration and login using JWT and Google OAuth.
-- 👥 Role-Based Access: Separate roles for room seekers, room owners, and administrators.
-- 🏡 Room Listings: Owners can upload room photos, rent details, facilities, rules, and descriptions.
-- 📍 Location-Based Search: Find rooms by city, area, address, or nearby landmarks.
-- 🔎 Smart Search: Filter rooms by budget, facilities, and preferred stay duration.
-- 📅 Availability Management: Owners can mark rooms as available or occupied.
-- 💬 Real-Time Chat: Communication between room seekers and owners using Python Socket.IO.
-- 📞 Direct Contact: Contact room owners directly.
-- 📝 Booking Requests: Request a room and wait for owner approval.
-- ⭐ Reviews and Ratings: Share feedback about room listings and experiences.
-- 🛡️ Admin Dashboard: Manage users, verify listings, and handle reports.
-- 🔔 Notifications: Updates for booking requests and important activities.
-- 💳 Direct Payments: No online payment gateway; payments are arranged directly with the owner.
+### Implemented (Core Backend)
+- 🔐 **Authentication & Security**: Secure registration, login, profile view/update with Argon2id password hashing, JWT bearer tokens, and SlowAPI rate limiting.
+- 👥 **Role-Based Access Control**: Strict role separation between Room Seekers (`student`) and Room Owners (`owner`).
+- 🏡 **Room Management**: Room owners can create, update, delete, and view their listings with title, description, location, monthly rent, max occupants, and vacancy dates.
+- 📍 **Safe Location-Based Search**: Sanitize regex search by location with pagination support.
+- 📅 **Availability Management**: Owners can toggle rooms between available and occupied via JSON body or query param.
+- 📝 **Booking Workflow**:
+  - Students submit booking requests for available rooms.
+  - Owners accept or reject requests.
+  - Accepting a booking atomically marks the room as occupied and auto-rejects competing pending requests.
+  - Students can cancel pending booking requests.
+- 📞 **Direct Contact Disclosure**: Contact details (full name, email, phone) are disclosed strictly after a booking request is accepted (mutual student-owner access).
+- 📊 **Owner Dashboard**: Real-time stats on total rooms, available rooms, occupied rooms, and pending booking requests.
+- 🛡️ **Data Integrity & Concurrency**: Atomic room claims, MongoDB partial unique indexes preventing race condition duplicates, and safe room deletion preventing orphaned bookings.
+- 🌐 **CORS Support**: Integrated `CORSMiddleware` supporting React + Vite local development and configurable deployed origins.
+
+### Planned / Future Roadmap
+- 🔑 **Google OAuth**: Alternative sign-in provider (Planned).
+- 💬 **Real-Time Chat**: Live messaging between students and owners via Socket.IO (Planned).
+- 🖼️ **Image Storage**: Cloud storage for room photos and document verification (Planned).
+- ⭐ **Reviews and Ratings**: Post-stay feedback for room listings (Planned).
+- 🛡️ **Admin Role & Moderation**: Dedicated admin dashboard for report handling and listing approvals (Planned).
+- 🔔 **In-App Notifications**: Real-time push/email alerts for booking status updates (Planned).
 
 🛠️ Tech Stack
 
 Frontend
-
-- React.js
-- HTML5
-- CSS3
-- JavaScript
+- React.js + Vite
+- HTML5, CSS3, JavaScript
 
 Backend
-
-- Python
-- FastAPI
-- Uvicorn
-- REST APIs
+- Python 3.14+
+- FastAPI (REST APIs)
+- Uvicorn (ASGI Server)
+- PyMongo (AsyncMongoClient)
+- Pydantic v2 & Pydantic-Settings
+- PyJWT & Pwdlib (Argon2id)
+- SlowAPI (Rate Limiting)
 
 Database
+- MongoDB 7.0+ / 8.0+ / Atlas
 
-- MongoDB
-- PyMongo
-
-Authentication
-
-- JSON Web Tokens (JWT)
-- Google OAuth
-
-Real-Time Communication
-
+Image Storage & Real-Time (Planned)
+- Cloud-based image storage
 - Python Socket.IO
-
-Image Storage
-
-- Cloud-based image storage (planned)
 
 📂 Project Structure
 

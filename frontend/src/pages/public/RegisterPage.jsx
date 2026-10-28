@@ -147,16 +147,16 @@ export const RegisterPage = () => {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-lg w-full bg-white border border-surface-border rounded-lg p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="max-w-lg w-full bg-white border border-warm-border rounded-xl p-6 sm:p-8 shadow-subtle space-y-6">
         <div className="text-center space-y-2">
           <Link to="/" className="inline-flex items-center justify-center mb-2">
             <Logo size="md" />
           </Link>
-          <h1 className="text-xl font-bold text-navy tracking-tight">
-            Create Your Roomora Account
+          <h1 className="text-xl sm:text-2xl font-extrabold text-charcoal tracking-tight">
+            Create Your Account
           </h1>
           <p className="text-xs text-charcoal-muted">
-            Join Roomora to discover rooms or list accommodations with protected contact access.
+            Join Roomora to discover student rooms or manage property listings.
           </p>
         </div>
 
@@ -168,48 +168,49 @@ export const RegisterPage = () => {
         )}
 
         {rateLimitTimer > 0 && (
-          <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2 text-xs text-amber-800">
+          <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2 text-xs text-amber-900">
             <Clock className="w-4 h-4 shrink-0 text-amber-600" />
             <span>Registration limit active. Please wait <strong>{rateLimitTimer}s</strong>.</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Account Role Selector */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-charcoal uppercase tracking-wider">
-              I am joining as: <span className="text-rose-500">*</span>
+            <label className="block text-xs font-bold text-charcoal uppercase tracking-wider">
+              I am registering as: <span className="text-rose-600">*</span>
             </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'student' })}
-                className={`py-2.5 px-3 rounded-md border text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${
+                className={`py-2.5 px-3 rounded-md border text-xs font-bold flex items-center justify-center gap-2 transition-colors ${
                   formData.role === 'student'
-                    ? 'border-teal-600 bg-teal-50 text-teal-800 shadow-sm'
-                    : 'border-surface-border bg-white text-charcoal hover:bg-surface-hover'
+                    ? 'border-forest-800 bg-sage text-forest-800 shadow-subtle'
+                    : 'border-warm-border bg-white text-charcoal hover:bg-warm-hover'
                 }`}
               >
-                <span>Student</span>
-                {formData.role === 'student' && <Check className="w-3.5 h-3.5 text-teal-600" />}
+                <span>Student Seeker</span>
+                {formData.role === 'student' && <Check className="w-3.5 h-3.5 text-forest-800" />}
               </button>
 
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'owner' })}
-                className={`py-2.5 px-3 rounded-md border text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${
+                className={`py-2.5 px-3 rounded-md border text-xs font-bold flex items-center justify-center gap-2 transition-colors ${
                   formData.role === 'owner'
-                    ? 'border-teal-600 bg-teal-50 text-teal-800 shadow-sm'
-                    : 'border-surface-border bg-white text-charcoal hover:bg-surface-hover'
+                    ? 'border-forest-800 bg-sage text-forest-800 shadow-subtle'
+                    : 'border-warm-border bg-white text-charcoal hover:bg-warm-hover'
                 }`}
               >
                 <span>Property Owner</span>
-                {formData.role === 'owner' && <Check className="w-3.5 h-3.5 text-teal-600" />}
+                {formData.role === 'owner' && <Check className="w-3.5 h-3.5 text-forest-800" />}
               </button>
             </div>
             <p className="text-[11px] text-charcoal-muted mt-1">
               {formData.role === 'student'
-                ? 'Discover student rooms, review terms, and submit booking applications.'
-                : 'Publish rooms, toggle vacancy status, and review applicant students.'}
+                ? 'Discover verified rooms and submit zero-fee booking requests.'
+                : 'List student rooms, manage real-time vacancy, and review applicants.'}
             </p>
           </div>
 
@@ -238,7 +239,7 @@ export const RegisterPage = () => {
           />
 
           <Input
-            label="Phone Number"
+            label="Contact Phone Number"
             id="phone"
             name="phone"
             type="tel"
@@ -248,12 +249,12 @@ export const RegisterPage = () => {
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             error={errors.phone}
             placeholder="+919876543210"
-            helperText="Protected: Only revealed to the counterparty upon accepted booking."
+            helperText="Protected: Disclosed only to counterparty after a booking request is accepted."
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label htmlFor="gender" className="block text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5">
+              <label htmlFor="gender" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
                 Gender (Optional)
               </label>
               <select
@@ -261,7 +262,7 @@ export const RegisterPage = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-white border border-surface-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="w-full px-3 py-2 text-sm bg-white border border-warm-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-forest-800 font-medium"
               >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -286,14 +287,14 @@ export const RegisterPage = () => {
           </div>
 
           <div className="pt-1">
-            <label className="block text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
               Profile Photo (Optional)
             </label>
             <div className="flex items-center gap-3">
               <Avatar src={photoPreview} name={formData.full_name} size="lg" />
               <div className="flex-1">
-                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-surface-border bg-surface-bg hover:bg-surface-hover rounded-md text-xs font-medium text-charcoal cursor-pointer transition-colors shadow-sm">
-                  <Camera className="w-3.5 h-3.5 text-teal-600" />
+                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-warm-border bg-warm-bg hover:bg-warm-hover rounded-md text-xs font-semibold text-charcoal cursor-pointer transition-colors shadow-subtle">
+                  <Camera className="w-3.5 h-3.5 text-forest-800" />
                   <span>{photoPreview ? 'Change Photo' : 'Upload Photo'}</span>
                   <input
                     type="file"
@@ -336,9 +337,9 @@ export const RegisterPage = () => {
           </Button>
         </form>
 
-        <div className="text-center pt-2 border-t border-surface-border text-xs text-charcoal-muted">
+        <div className="text-center pt-2 border-t border-warm-border text-xs text-charcoal-muted">
           <span>Already registered? </span>
-          <Link to="/login" className="font-semibold text-teal-600 hover:text-teal-700">
+          <Link to="/login" className="font-bold text-forest-800 hover:underline">
             Sign In Here
           </Link>
         </div>

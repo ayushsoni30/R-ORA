@@ -1,5 +1,4 @@
 import React from 'react';
-import { Home } from 'lucide-react';
 
 export const Logo = ({ size = 'md', showText = true, showTagline = false, className = '' }) => {
   const iconSizes = {
@@ -9,8 +8,8 @@ export const Logo = ({ size = 'md', showText = true, showTagline = false, classN
   };
 
   const svgSizes = {
-    sm: 'w-3.5 h-3.5',
-    md: 'w-4 h-4',
+    sm: 'w-4 h-4',
+    md: 'w-4.5 h-4.5',
     lg: 'w-5 h-5',
   };
 
@@ -21,21 +20,34 @@ export const Logo = ({ size = 'md', showText = true, showTagline = false, classN
   };
 
   return (
-    <div className={`flex items-center gap-2.5 select-none tracking-tight text-navy ${className}`}>
-      <span
-        className={`${iconSizes[size] || iconSizes.md} rounded-md bg-navy-800 flex items-center justify-center text-white shadow-subtle shrink-0 relative`}
+    <div className={`flex items-center gap-2.5 select-none ${className}`}>
+      {/* Refined architectural key/doorway emblem */}
+      <div
+        className={`${iconSizes[size] || iconSizes.md} rounded-md bg-forest-800 flex items-center justify-center text-white shrink-0 shadow-subtle relative border border-forest-900/30`}
       >
-        <Home className={svgSizes[size] || svgSizes.md} />
-        <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-teal-600 ring-2 ring-white" />
-      </span>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={svgSizes[size] || svgSizes.md}
+        >
+          <path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5v-9Z" />
+          <path d="M9 21V12h6v9" strokeWidth="2" />
+        </svg>
+        <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 ring-2 ring-white" />
+      </div>
+
       {showText && (
         <div className="flex flex-col">
-          <span className={`${textSizes[size] || textSizes.md} text-navy-800 font-bold tracking-tight leading-none`}>
+          <span className={`${textSizes[size] || textSizes.md} text-charcoal font-extrabold tracking-tight leading-none`}>
             ROOMORA
           </span>
           {showTagline && (
-            <span className="hidden sm:inline-block text-[10px] text-charcoal-muted font-medium tracking-tight mt-0.5">
-              Rooms for Students
+            <span className="text-[10px] text-charcoal-muted font-medium tracking-tight mt-0.5">
+              Student Accommodation
             </span>
           )}
         </div>

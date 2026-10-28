@@ -32,34 +32,34 @@ export const Modal = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn"
     >
       <div
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-charcoal/40 backdrop-blur-[2px] transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
-        className={`relative bg-white rounded-lg border border-slate-200 shadow-lg w-full ${maxWidth} z-10 overflow-hidden transform transition-all`}
+        className={`relative bg-white rounded-lg border border-warm-border shadow-elevated w-full ${maxWidth} z-10 overflow-hidden transform transition-all animate-scaleUp`}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-          <h3 id="modal-title" className="text-base font-semibold text-slate-900">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-warm-border bg-warm-bg/40">
+          <h3 id="modal-title" className="text-base font-bold text-charcoal">
             {title}
           </h3>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-slate-600 rounded hover:bg-slate-100 transition-colors"
+            className="p-1 text-charcoal-muted hover:text-charcoal rounded hover:bg-warm-hover transition-colors"
             aria-label="Close dialog"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
-        <div className="px-5 py-4 text-sm text-slate-600">
+        <div className="px-5 py-4 text-sm text-charcoal leading-relaxed">
           {children}
         </div>
         {actions && (
-          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 px-5 py-3.5 bg-slate-50 border-t border-slate-100">
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 px-5 py-3.5 bg-warm-bg border-t border-warm-border">
             {actions}
           </div>
         )}

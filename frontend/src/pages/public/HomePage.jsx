@@ -3,20 +3,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   Search,
   MapPin,
-  CheckCircle2,
-  Shield,
   ArrowRight,
-  Building2,
-  Lock,
-  UserCheck,
-  Send,
-  BedDouble,
+  ShieldCheck,
+  Building,
+  KeyRound,
+  FileCheck,
+  CheckCircle2,
 } from 'lucide-react';
 import { roomService } from '../../services/roomService';
 import { RoomCard } from '../../components/room/RoomCard';
 import { RoomCardSkeleton } from '../../components/common/Skeleton';
 import { EmptyState } from '../../components/common/EmptyState';
 import { Button } from '../../components/common/Button';
+import { Badge } from '../../components/common/Badge';
 import { useAuth } from '../../context/AuthContext';
 
 export const HomePage = () => {
@@ -58,115 +57,107 @@ export const HomePage = () => {
   };
 
   return (
-    <div className="space-y-16 pb-16">
-      <section className="bg-gradient-to-b from-white to-surface-bg border-b border-surface-border py-12 lg:py-16">
+    <div className="space-y-16 pb-20">
+      {/* Editorial Hero Section */}
+      <section className="bg-white border-b border-warm-border pt-12 pb-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-navy-50 border border-navy-100 rounded-md text-xs font-semibold text-navy-800 tracking-wide uppercase">
-                <Shield className="w-3.5 h-3.5 text-teal-600" />
-                <span>Trusted by Students &amp; Property Owners</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage text-forest-800 rounded-md text-xs font-bold uppercase tracking-wider border border-sage-300/60">
+                <ShieldCheck className="w-4 h-4 text-forest-800" />
+                <span>Student Accommodation Platform</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-800 tracking-tight leading-tight">
-                Find Your Room, Feel at Home.
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal tracking-tight leading-[1.1]">
+                Find a place that feels like yours.
               </h1>
 
               <p className="text-base sm:text-lg text-charcoal-muted leading-relaxed max-w-xl">
-                Roomora connects students with property owners through transparent listings and straightforward booking requests.
+                Discover rooms that fit your next chapter. Connect with room owners and find a place to call home.
               </p>
 
-              <form
-                onSubmit={handleSearchSubmit}
-                className="bg-white p-2 border border-surface-border rounded-lg shadow-card max-w-xl flex flex-col sm:flex-row items-stretch gap-2"
-              >
-                <div className="relative flex-1 flex items-center">
-                  <MapPin className="w-5 h-5 text-teal-600 absolute left-3 shrink-0" />
-                  <input
-                    type="text"
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                    placeholder="Enter city, university area, or sector..."
-                    className="w-full pl-10 pr-3 py-2.5 text-sm bg-white border border-surface-border rounded-md text-charcoal placeholder:text-charcoal-muted/70 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                  icon={Search}
-                  className="shrink-0"
+              {/* Prominent Location-Based Search */}
+              <div className="space-y-3 pt-2">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="bg-warm-bg p-2 border border-warm-border rounded-lg shadow-subtle max-w-xl flex flex-col sm:flex-row items-stretch gap-2"
                 >
-                  Search Rooms
-                </Button>
-              </form>
+                  <div className="relative flex-1 flex items-center">
+                    <MapPin className="w-5 h-5 text-forest-800 absolute left-3 shrink-0" />
+                    <input
+                      type="text"
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
+                      placeholder="Enter city, university area, or neighborhood..."
+                      className="w-full pl-10 pr-3 py-2.5 text-sm bg-white border border-warm-border rounded-md text-charcoal placeholder:text-charcoal-muted/60 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="md"
+                    icon={Search}
+                    className="shrink-0"
+                  >
+                    Search Rooms
+                  </Button>
+                </form>
 
-              <div className="pt-2 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs font-medium text-charcoal-muted">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />
-                  Direct Owner Listings
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />
-                  No Brokerage Fees
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />
-                  Protected Mutual Contact
-                </span>
+                {/* Clear indication that users can discover available and occupied listings */}
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-charcoal-muted">
+                  <span className="font-semibold text-charcoal">Browse all listings:</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-forest-800" />
+                    <span>Available rooms</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-charcoal-muted" />
+                    <span>Occupied rooms (view upcoming vacancies)</span>
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-xl overflow-hidden border border-surface-border shadow-elevated bg-white p-6 sm:p-8 space-y-6">
-                <div className="bg-gradient-to-br from-navy-800 to-navy-900 rounded-lg p-6 text-white space-y-4 shadow-sm relative overflow-hidden">
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse" />
-                      <span className="text-xs font-semibold uppercase tracking-wider text-teal-200">
-                        Live Student Platform
+            {/* Right Composed Photographic Layout */}
+            <div className="lg:col-span-5">
+              <div className="relative">
+                {/* Main Architectural / Room Imagery Composition */}
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 p-3 bg-warm-bg border border-warm-border rounded-xl shadow-subtle">
+                  <div className="space-y-3 sm:gap-4">
+                    <div className="aspect-[4/5] rounded-lg overflow-hidden border border-warm-border bg-warm-muted">
+                      <img
+                        src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"
+                        alt="Bright organized student room with desk and window"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-3.5 bg-white rounded-lg border border-warm-border">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal block mb-0.5">
+                        Direct Owner Access
                       </span>
-                    </div>
-                    <span className="text-[11px] font-medium bg-white/10 px-2 py-0.5 rounded text-white/80">
-                      Fast &amp; Direct
-                    </span>
-                  </div>
-
-                  <div className="space-y-1 relative z-10 pt-2">
-                    <h3 className="text-xl font-bold tracking-tight text-white">
-                      Verified Room Accommodations
-                    </h3>
-                    <p className="text-xs text-navy-200 leading-relaxed">
-                      Photos and listings uploaded directly by room owners via Cloudinary storage.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 pt-2 relative z-10">
-                    <div className="bg-white/10 backdrop-blur-sm p-2.5 rounded border border-white/10 flex items-center gap-2 text-xs">
-                      <BedDouble className="w-4 h-4 text-teal-300 shrink-0" />
-                      <span>Direct Listings</span>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm p-2.5 rounded border border-white/10 flex items-center gap-2 text-xs">
-                      <Shield className="w-4 h-4 text-teal-300 shrink-0" />
-                      <span>Zero Broker Fees</span>
+                      <p className="text-xs text-charcoal-muted leading-relaxed">
+                        Protected mutual contact unlocked upon accepted request.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:16px_16px]" />
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 text-center pt-1">
-                  <div className="p-3 bg-surface-bg rounded-lg border border-surface-border">
-                    <div className="text-base font-bold text-navy-800">100%</div>
-                    <div className="text-[10px] text-charcoal-muted uppercase tracking-wider font-semibold mt-0.5">Direct Owner</div>
-                  </div>
-                  <div className="p-3 bg-surface-bg rounded-lg border border-surface-border">
-                    <div className="text-base font-bold text-teal-600">₹0</div>
-                    <div className="text-[10px] text-charcoal-muted uppercase tracking-wider font-semibold mt-0.5">Brokerage Fee</div>
-                  </div>
-                  <div className="p-3 bg-surface-bg rounded-lg border border-surface-border">
-                    <div className="text-base font-bold text-navy-800">Real-time</div>
-                    <div className="text-[10px] text-charcoal-muted uppercase tracking-wider font-semibold mt-0.5">Availability</div>
+                  <div className="space-y-3 sm:gap-4 pt-6">
+                    <div className="p-3.5 bg-sage text-forest-800 rounded-lg border border-sage-300/60">
+                      <span className="text-[11px] font-bold uppercase tracking-wider block mb-0.5">
+                        Real Availability
+                      </span>
+                      <p className="text-xs text-forest-900 leading-relaxed">
+                        Verified vacancy dates &amp; clear student occupant capacities.
+                      </p>
+                    </div>
+                    <div className="aspect-[4/5] rounded-lg overflow-hidden border border-warm-border bg-warm-muted">
+                      <img
+                        src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80"
+                        alt="Minimal quiet bedroom space with study area"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -175,21 +166,78 @@ export const HomePage = () => {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5 block">
+            Simple Process
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-charcoal tracking-tight">
+            How It Works
+          </h2>
+          <p className="text-xs sm:text-sm text-charcoal-muted mt-2">
+            A straightforward accommodation workflow connecting students and room owners.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white border border-warm-border rounded-lg p-6 shadow-subtle space-y-3">
+            <div className="w-9 h-9 rounded-md bg-sage text-forest-800 flex items-center justify-center font-bold text-sm border border-sage-300/60">
+              1
+            </div>
+            <h3 className="text-base font-bold text-charcoal">
+              Explore rooms by location.
+            </h3>
+            <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed">
+              Search by city, campus area, or neighborhood. Review room photographs, monthly rents, occupant caps, and expected vacancy dates.
+            </p>
+          </div>
+
+          <div className="bg-white border border-warm-border rounded-lg p-6 shadow-subtle space-y-3">
+            <div className="w-9 h-9 rounded-md bg-sage text-forest-800 flex items-center justify-center font-bold text-sm border border-sage-300/60">
+              2
+            </div>
+            <h3 className="text-base font-bold text-charcoal">
+              Send a booking request.
+            </h3>
+            <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed">
+              Submit your booking request directly to the room owner with your verified student profile. No upfront payment required to apply.
+            </p>
+          </div>
+
+          <div className="bg-white border border-warm-border rounded-lg p-6 shadow-subtle space-y-3">
+            <div className="w-9 h-9 rounded-md bg-sage text-forest-800 flex items-center justify-center font-bold text-sm border border-sage-300/60">
+              3
+            </div>
+            <h3 className="text-base font-bold text-charcoal">
+              Connect with the owner after the request is accepted.
+            </h3>
+            <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed">
+              Once the room owner accepts your request, direct phone and email contact details are unlocked so you can coordinate move-in details.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Room Discovery Preview Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-3 border-b border-warm-border">
           <div>
-            <h2 className="text-2xl font-bold text-navy-800 tracking-tight">
-              Recently Listed Rooms
+            <span className="text-xs font-bold uppercase tracking-wider text-forest-800 mb-1 block">
+              Recent Listings
+            </span>
+            <h2 className="text-2xl font-bold text-charcoal tracking-tight">
+              Featured Accommodations
             </h2>
             <p className="text-xs sm:text-sm text-charcoal-muted mt-1">
-              Live accommodations posted directly by registered property owners.
+              Browse rooms recently published by registered property owners.
             </p>
           </div>
           <Link
             to="/rooms"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-forest-800 hover:text-forest-900 transition-colors"
           >
-            <span>View all rooms</span>
+            <span>View All Rooms</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -209,151 +257,52 @@ export const HomePage = () => {
         ) : (
           <EmptyState
             title="No Rooms Listed Yet"
-            description="No student accommodations are currently published on the platform. Property owners can be the first to list."
-            actionText="Browse Room Catalog"
-            actionLink="/rooms"
+            description="There are currently no listings published on the platform. Property owners can be the first to list."
+            action={
+              <Link to={isAuthenticated && isOwner ? '/owner/rooms/new' : '/register'}>
+                <Button variant="primary" size="sm">
+                  List Your Room
+                </Button>
+              </Link>
+            }
           />
         )}
       </section>
 
+      {/* Owner Call to Action Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-navy-800 tracking-tight">
-            How Roomora Works
-          </h2>
-          <p className="text-xs sm:text-sm text-charcoal-muted mt-2">
-            A transparent 3-step process designed specifically for university students and independent property owners.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white border border-surface-border rounded-lg p-6 shadow-card space-y-3">
-            <div className="w-10 h-10 rounded-md bg-navy-50 text-navy-800 flex items-center justify-center font-bold text-base">
-              1
-            </div>
-            <h3 className="text-base font-semibold text-navy-800">
-              Discover By Location
-            </h3>
-            <p className="text-xs text-charcoal-muted leading-relaxed">
-              Search by city, campus area, or sector. View clear photos, real monthly rent, occupancy caps, and expected vacancy dates.
-            </p>
-          </div>
-
-          <div className="bg-white border border-surface-border rounded-lg p-6 shadow-card space-y-3">
-            <div className="w-10 h-10 rounded-md bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-base">
-              2
-            </div>
-            <h3 className="text-base font-semibold text-navy-800">
-              Submit Booking Request
-            </h3>
-            <p className="text-xs text-charcoal-muted leading-relaxed">
-              Send a direct booking application with one click. Owners review student profiles without unwanted spam calls or intermediaries.
-            </p>
-          </div>
-
-          <div className="bg-white border border-surface-border rounded-lg p-6 shadow-card space-y-3">
-            <div className="w-10 h-10 rounded-md bg-navy-50 text-navy-800 flex items-center justify-center font-bold text-base">
-              3
-            </div>
-            <h3 className="text-base font-semibold text-navy-800">
-              Connect &amp; Move In
-            </h3>
-            <p className="text-xs text-charcoal-muted leading-relaxed">
-              Once the owner accepts your request, direct phone and email contact are immediately disclosed to coordinate move-in smoothly.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white border-y border-surface-border py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-navy-800 tracking-tight">
-              Why Choose Roomora
+        <div className="bg-forest-800 text-white rounded-xl p-8 sm:p-12 shadow-elevated grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-8 space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-sage block">
+              For Property Owners
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              List your student room on Roomora.
             </h2>
-            <p className="text-xs sm:text-sm text-charcoal-muted mt-2">
-              Built from the ground up to eliminate the friction, broker commissions, and privacy risks of traditional room rentals.
+            <p className="text-xs sm:text-sm text-sage-100 leading-relaxed max-w-xl">
+              Publish your room with photos, monthly rent, and vacancy dates. Review verified student applications and manage room availability with zero brokerage overhead.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 border border-surface-border rounded-lg bg-surface-bg space-y-2.5">
-              <Building2 className="w-6 h-6 text-teal-600" />
-              <h4 className="text-sm font-semibold text-navy-800">Direct Owner Listings</h4>
-              <p className="text-xs text-charcoal-muted leading-relaxed">
-                Connect directly with actual room owners. Zero brokers, agents, or hidden administrative fees.
-              </p>
-            </div>
-
-            <div className="p-5 border border-surface-border rounded-lg bg-surface-bg space-y-2.5">
-              <Lock className="w-6 h-6 text-teal-600" />
-              <h4 className="text-sm font-semibold text-navy-800">Mutual Contact Protection</h4>
-              <p className="text-xs text-charcoal-muted leading-relaxed">
-                Phone numbers and email addresses remain strictly protected until a booking request is accepted.
-              </p>
-            </div>
-
-            <div className="p-5 border border-surface-border rounded-lg bg-surface-bg space-y-2.5">
-              <UserCheck className="w-6 h-6 text-teal-600" />
-              <h4 className="text-sm font-semibold text-navy-800">Student-Centric Discovery</h4>
-              <p className="text-xs text-charcoal-muted leading-relaxed">
-                Listings clearly display maximum occupancy, vacancy dates, and proximity to major universities.
-              </p>
-            </div>
-
-            <div className="p-5 border border-surface-border rounded-lg bg-surface-bg space-y-2.5">
-              <Send className="w-6 h-6 text-teal-600" />
-              <h4 className="text-sm font-semibold text-navy-800">Simple Online Requests</h4>
-              <p className="text-xs text-charcoal-muted leading-relaxed">
-                Track pending, accepted, and rejected requests in real-time with full transparency.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-navy-800 text-white rounded-xl p-8 sm:p-10 shadow-card flex flex-col justify-between space-y-6">
-            <div className="space-y-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-teal-300">
-                For University Students
-              </span>
-              <h3 className="text-2xl font-bold tracking-tight text-white">
-                Looking for a room near your campus?
-              </h3>
-              <p className="text-xs sm:text-sm text-navy-200 leading-relaxed max-w-md">
-                Browse verified rooms with transparent rents, check expected vacancy dates, and send booking requests with zero brokerage fees.
-              </p>
-            </div>
-            <div>
-              <Link to="/rooms">
-                <Button variant="primary" size="md" icon={ArrowRight}>
-                  Explore Available Rooms
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-white border border-surface-border rounded-xl p-8 sm:p-10 shadow-card flex flex-col justify-between space-y-6">
-            <div className="space-y-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-teal-600">
-                For Property Owners
-              </span>
-              <h3 className="text-2xl font-bold tracking-tight text-navy-800">
-                Have a student-friendly room or flat?
-              </h3>
-              <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed max-w-md">
-                Post your accommodation in minutes. Receive and manage verified student booking requests directly with full control over availability.
-              </p>
-            </div>
-            <div>
-              <Link to={isAuthenticated && isOwner ? '/owner/rooms/new' : '/register'}>
-                <Button variant="secondary" size="md" icon={Building2}>
-                  List Your Property
-                </Button>
-              </Link>
-            </div>
+          <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end justify-center">
+            <Link
+              to={isAuthenticated && isOwner ? '/owner/rooms/new' : '/register'}
+              className="w-full sm:w-auto"
+            >
+              <Button
+                variant="secondary"
+                size="lg"
+                icon={Building}
+                className="w-full sm:w-auto bg-sage text-forest-800 hover:bg-white"
+              >
+                List Your Room
+              </Button>
+            </Link>
+            <Link
+              to="/about"
+              className="text-xs font-semibold text-sage-100 hover:text-white transition-colors text-center lg:text-right px-2"
+            >
+              Learn about owner policies &rarr;
+            </Link>
           </div>
         </div>
       </section>

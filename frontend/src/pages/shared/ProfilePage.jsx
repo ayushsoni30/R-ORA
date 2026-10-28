@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Check, Trash2, Loader2, ShieldCheck } from 'lucide-react';
+import { Camera, Check, Trash2, Loader2, ShieldCheck, User } from 'lucide-react';
 import { authService } from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -145,7 +145,7 @@ export const ProfilePage = () => {
   if (isLoading) {
     return (
       <div className="py-16 flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-forest-800" />
         <p className="text-xs text-charcoal-muted">Loading your profile...</p>
       </div>
     );
@@ -153,21 +153,22 @@ export const ProfilePage = () => {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <div className="border-b border-surface-border pb-5">
-        <h1 className="text-2xl font-bold text-navy tracking-tight">
+      <div className="border-b border-warm-border pb-5">
+        <h1 className="text-2xl font-extrabold text-charcoal tracking-tight">
           Account Profile &amp; Settings
         </h1>
         <p className="text-xs text-charcoal-muted mt-1">
-          Manage your personal details, profile photo, and contact information.
+          Manage your personal details, profile photo, and verified contact information.
         </p>
       </div>
 
-      <div className="bg-white border border-surface-border rounded-lg p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 p-5 bg-surface-bg rounded-lg border border-surface-border">
+      <div className="bg-white border border-warm-border rounded-xl p-6 sm:p-8 shadow-subtle space-y-6">
+        {/* Profile Card Header */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 p-5 bg-warm-bg rounded-lg border border-warm-border">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div className="relative group">
               <Avatar src={photoPreview} name={formData.full_name} size="2xl" />
-              <label className="absolute bottom-0 right-0 p-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-full cursor-pointer shadow-md transition-colors">
+              <label className="absolute bottom-0 right-0 p-1.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full cursor-pointer shadow-subtle transition-colors">
                 <Camera className="w-4 h-4" />
                 <input
                   type="file"
@@ -178,17 +179,17 @@ export const ProfilePage = () => {
               </label>
             </div>
             <div>
-              <p className="font-bold text-charcoal text-base">{formData.full_name || user?.full_name}</p>
+              <p className="font-extrabold text-charcoal text-base">{formData.full_name || user?.full_name}</p>
               <p className="text-xs text-charcoal-muted">{user?.email}</p>
               <div className="flex items-center gap-2 mt-2 justify-center sm:justify-start">
                 <Badge variant={user?.role === 'owner' ? 'owner' : 'student'} size="sm">
-                  {user?.role === 'owner' ? 'Room Owner' : 'Student Seeker'}
+                  {user?.role === 'owner' ? 'Property Owner' : 'Student Seeker'}
                 </Badge>
                 {photoPreview && (
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="text-xs text-rose-600 hover:text-rose-700 inline-flex items-center gap-1 font-medium"
+                    className="text-xs text-rose-700 hover:text-rose-800 inline-flex items-center gap-1 font-semibold"
                   >
                     <Trash2 className="w-3 h-3" />
                     <span>Remove Photo</span>
@@ -218,13 +219,13 @@ export const ProfilePage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
                 Gender
               </label>
               <select
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-white border border-surface-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
+                className="w-full px-3 py-2 text-sm bg-white border border-warm-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-forest-800 font-medium"
               >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -249,16 +250,16 @@ export const ProfilePage = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
               Email Address
             </label>
             <input
               type="email"
               value={user?.email || ''}
               disabled
-              className="w-full px-3 py-2 text-sm bg-slate-100 border border-surface-border rounded-md text-charcoal-muted cursor-not-allowed"
+              className="w-full px-3 py-2 text-sm bg-warm-muted border border-warm-border rounded-md text-charcoal-muted cursor-not-allowed font-medium"
             />
-            <p className="text-[11px] text-charcoal-subtle mt-1">
+            <p className="text-[11px] text-charcoal-muted mt-1">
               Email address is permanent and cannot be modified.
             </p>
           </div>
@@ -272,12 +273,12 @@ export const ProfilePage = () => {
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             error={errors.phone}
-            helperText="Direct contact is revealed only after a booking is accepted."
+            helperText="Direct contact is revealed strictly after a booking request is accepted."
           />
 
-          <div className="pt-4 border-t border-surface-border flex items-center justify-between">
+          <div className="pt-4 border-t border-warm-border flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 text-xs text-charcoal-muted">
-              <ShieldCheck className="w-4 h-4 text-teal-600" />
+              <ShieldCheck className="w-4 h-4 text-forest-800" />
               <span>Contact details protected by Roomora Privacy Policy</span>
             </div>
             <Button

@@ -4,22 +4,23 @@
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    color: #172B42;
-    background-color: #F7F9FC;
+    font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+    color: #202824;
+    background-color: #FAF9F6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #F7F9FC;
-    color: #172B42;
+    background-color: #FAF9F6;
+    color: #202824;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: #123653;
-    letter-spacing: -0.015em;
+    color: #202824;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -34,7 +35,7 @@
 
 @layer utilities {
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-forest-800 focus:ring-offset-2 focus:ring-offset-[#FAF9F6];
   }
 
   @keyframes fadeIn {
@@ -43,7 +44,7 @@
   }
 
   @keyframes scaleUp {
-    from { opacity: 0; transform: scale(0.96); }
+    from { opacity: 0; transform: scale(0.97); }
     to { opacity: 1; transform: scale(1); }
   }
 
@@ -53,11 +54,11 @@
   }
 
   .animate-fadeIn {
-    animation: fadeIn 0.2s ease-out forwards;
+    animation: fadeIn 0.18s ease-out forwards;
   }
 
   .animate-scaleUp {
-    animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .animate-progressBar {

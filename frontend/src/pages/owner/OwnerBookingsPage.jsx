@@ -5,9 +5,8 @@ import {
   X,
   Phone,
   Mail,
-  User,
   Calendar,
-  Building2,
+  Building,
   AlertCircle,
   Loader2,
   CheckCircle2,
@@ -39,9 +38,9 @@ export const OwnerBookingsPage = () => {
     setIsLoading(true);
     try {
       const data = await bookingService.getOwnerBookings();
-      setBookings(data);
+      setBookings(data || []);
 
-      const uniqueRoomIds = [...new Set(data.map((b) => b.room_id))];
+      const uniqueRoomIds = [...new Set((data || []).map((b) => b.room_id))];
       const rMap = {};
       await Promise.all(
         uniqueRoomIds.map(async (rId) => {
@@ -78,9 +77,9 @@ export const OwnerBookingsPage = () => {
     try {
       await bookingService.updateBookingStatus(selectedBooking.id, decisionAction);
       if (decisionAction === 'accepted') {
-        success('Booking accepted! The room has been marked occupied and competing requests resolved.');
+        success('Booking accepted! The room is marked Occupied and contact details unlocked.');
       } else {
-        success('Booking request rejected.');
+        success('Booking request declined.');
       }
       setIsDecisionModalOpen(false);
       setSelectedBooking(null);
@@ -100,26 +99,27 @@ export const OwnerBookingsPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-surface-border pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-warm-border pb-5">
         <div>
-          <h1 className="text-2xl font-bold text-navy tracking-tight">
+          <h1 className="text-2xl font-extrabold text-charcoal tracking-tight">
             Booking Requests Inbox
           </h1>
           <p className="text-xs text-charcoal-muted mt-1">
-            Review incoming accommodation applications from students with full applicant profiles.
+            Review incoming accommodation applications from students with full verified applicant profiles.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-md self-start sm:self-auto text-xs font-medium">
+        {/* Tab Filters */}
+        <div className="flex flex-wrap items-center gap-1.5 bg-warm-bg p-1 rounded-md border border-warm-border self-start sm:self-auto text-xs font-semibold">
           {['all', 'pending', 'accepted', 'rejected'].map((tab) => (
             <button
               key={tab}
               type="button"
               onClick={() => setStatusFilter(tab)}
-              className={`px-3 py-1 rounded transition-colors uppercase text-[11px] font-semibold tracking-wider ${
+              className={`px-3 py-1 rounded transition-colors uppercase text-[11px] font-bold tracking-wider ${
                 statusFilter === tab
-                  ? 'bg-white text-navy shadow-sm'
-                  : 'text-charcoal-muted hover:text-navy'
+                  ? 'bg-white text-forest-800 shadow-subtle border border-warm-border'
+                  : 'text-charcoal-muted hover:text-charcoal'
               }`}
             >
               {tab}
@@ -130,7 +130,7 @@ export const OwnerBookingsPage = () => {
 
       {isLoading ? (
         <div className="py-16 flex flex-col items-center justify-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-forest-800" />
           <p className="text-xs text-charcoal-muted">Loading booking inbox...</p>
         </div>
       ) : filteredBookings.length > 0 ? (
@@ -154,12 +154,13 @@ export const OwnerBookingsPage = () => {
             return (
               <div
                 key={booking.id}
-                className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-4"
+                className="bg-white border border-warm-border rounded-lg p-5 shadow-subtle space-y-4"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-border pb-3">
+                {/* Header: Room & Status */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-border pb-3">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-navy text-base">
+                      <span className="font-bold text-charcoal text-base">
                         {room.title || 'Room Listing'}
                       </span>
                       <Badge variant={booking.status} size="sm">
@@ -173,19 +174,20 @@ export const OwnerBookingsPage = () => {
 
                   <div className="flex items-center gap-3 self-start sm:self-auto text-xs text-charcoal-muted">
                     {room.monthly_rent && (
-                      <span className="font-bold text-navy bg-navy-50 px-2 py-0.5 rounded border border-navy-100">
+                      <span className="font-bold text-charcoal bg-warm-bg px-2.5 py-0.5 rounded border border-warm-border">
                         ₹{Number(room.monthly_rent).toLocaleString()} / mo
                       </span>
                     )}
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-teal-600" />
-                      Submitted: {createdDate}
+                    <span className="flex items-center gap-1 font-medium">
+                      <Calendar className="w-3.5 h-3.5 text-forest-800" />
+                      Applied: {createdDate}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-4 bg-surface-bg rounded-lg border border-surface-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
+                {/* Applicant Student Profile Surface */}
+                <div className="p-4 bg-warm-bg rounded-lg border border-warm-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
                     <Avatar
                       src={booking.student_photo}
                       name={booking.student_name}
@@ -201,24 +203,25 @@ export const OwnerBookingsPage = () => {
                         </Badge>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-charcoal-muted mt-1">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-charcoal-muted mt-1 font-medium">
                         {booking.student_gender && (
                           <span className="inline-flex items-center gap-1">
-                            <span className="text-charcoal font-medium">Gender:</span> {booking.student_gender}
+                            <span className="text-charcoal font-semibold">Gender:</span> {booking.student_gender}
                           </span>
                         )}
                         {booking.student_age && (
                           <span className="inline-flex items-center gap-1">
-                            <span className="text-charcoal font-medium">Age:</span> {booking.student_age} yrs old
+                            <span className="text-charcoal font-semibold">Age:</span> {booking.student_age} yrs old
                           </span>
                         )}
                         {!booking.student_gender && !booking.student_age && (
-                          <span className="text-charcoal-subtle italic">Demographics not specified</span>
+                          <span className="text-charcoal-muted italic">Demographics not specified</span>
                         )}
                       </div>
                     </div>
                   </div>
 
+                  {/* Pending Decision Buttons */}
                   {isPending && (
                     <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
                       <Button
@@ -241,12 +244,13 @@ export const OwnerBookingsPage = () => {
                   )}
                 </div>
 
+                {/* Accepted: Direct Student Contact Disclosed */}
                 {isAccepted && (
-                  <div className="bg-teal-50 border border-teal-200 rounded-md p-4 space-y-3">
+                  <div className="bg-sage border border-sage-300 rounded-lg p-4 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 text-xs font-bold text-teal-900">
-                        <CheckCircle2 className="w-4 h-4 text-teal-600" />
-                        <span>Accepted Booking - Student Direct Contact Information</span>
+                      <div className="flex items-center gap-2 text-xs font-bold text-forest-900">
+                        <CheckCircle2 className="w-4 h-4 text-forest-800" />
+                        <span>Accepted Booking — Student Direct Contact Information</span>
                       </div>
                       <Badge variant="accepted" size="sm">
                         Verified Contact
@@ -254,30 +258,30 @@ export const OwnerBookingsPage = () => {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs text-charcoal">
-                      <div className="bg-white p-3 rounded border border-teal-100 flex items-center gap-2.5">
-                        <Phone className="w-4 h-4 text-teal-600 shrink-0" />
+                      <div className="bg-white p-3 rounded-md border border-warm-border flex items-center gap-2.5">
+                        <Phone className="w-4 h-4 text-forest-800 shrink-0" />
                         <div>
-                          <span className="text-charcoal-subtle block text-[10px] uppercase font-semibold">
+                          <span className="text-charcoal-muted block text-[10px] uppercase font-bold">
                             Phone Number
                           </span>
                           <a
                             href={`tel:${booking.student_phone}`}
-                            className="font-semibold text-navy hover:underline"
+                            className="font-bold text-charcoal hover:underline"
                           >
                             {booking.student_phone || 'Phone unavailable'}
                           </a>
                         </div>
                       </div>
 
-                      <div className="bg-white p-3 rounded border border-teal-100 flex items-center gap-2.5">
-                        <Mail className="w-4 h-4 text-teal-600 shrink-0" />
-                        <div>
-                          <span className="text-charcoal-subtle block text-[10px] uppercase font-semibold">
+                      <div className="bg-white p-3 rounded-md border border-warm-border flex items-center gap-2.5">
+                        <Mail className="w-4 h-4 text-forest-800 shrink-0" />
+                        <div className="min-w-0">
+                          <span className="text-charcoal-muted block text-[10px] uppercase font-bold">
                             Email Address
                           </span>
                           <a
                             href={`mailto:${booking.student_email}`}
-                            className="font-semibold text-navy hover:underline truncate block"
+                            className="font-bold text-charcoal hover:underline truncate block"
                           >
                             {booking.student_email || 'Email unavailable'}
                           </a>
@@ -287,9 +291,10 @@ export const OwnerBookingsPage = () => {
                   </div>
                 )}
 
+                {/* Rejected notice */}
                 {isRejected && (
-                  <div className="bg-slate-50 border border-surface-border rounded-md p-3 text-xs text-charcoal-muted">
-                    You declined this application.
+                  <div className="bg-warm-muted border border-warm-border rounded-md p-3 text-xs text-charcoal-muted">
+                    You declined this student application.
                   </div>
                 )}
               </div>
@@ -308,10 +313,11 @@ export const OwnerBookingsPage = () => {
         />
       )}
 
+      {/* Decision Confirmation Modal */}
       <Modal
         isOpen={isDecisionModalOpen}
         onClose={() => setIsDecisionModalOpen(false)}
-        title={decisionAction === 'accepted' ? 'Accept Booking Request' : 'Decline Booking Request'}
+        title={decisionAction === 'accepted' ? 'Accept Booking Application' : 'Decline Booking Application'}
         actions={
           <>
             <Button
@@ -333,15 +339,15 @@ export const OwnerBookingsPage = () => {
           </>
         }
       >
-        <div className="space-y-2 text-xs text-charcoal-muted leading-relaxed">
+        <div className="space-y-3 text-xs text-charcoal leading-relaxed">
           {decisionAction === 'accepted' ? (
             <>
               <p>
                 Are you sure you want to <strong>accept</strong> the application from <strong>{selectedBooking?.student_name}</strong>?
               </p>
-              <div className="bg-teal-50 border border-teal-200 rounded p-3 text-teal-900 space-y-1">
-                <strong>Automated System Updates:</strong>
-                <ul className="list-disc pl-4 mt-1 space-y-0.5 text-xs">
+              <div className="bg-sage border border-sage-300 rounded-md p-3 text-forest-900 space-y-1.5">
+                <span className="font-bold block text-xs">Automated Platform Actions:</span>
+                <ul className="list-disc pl-4 space-y-1 text-xs">
                   <li>Room status will change to <strong>Occupied</strong>.</li>
                   <li>Competing pending applications for this room will be auto-declined.</li>
                   <li>Direct phone numbers and emails will be shared mutually.</li>

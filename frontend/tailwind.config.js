@@ -7,49 +7,73 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          50: '#F0F5FA',
-          100: '#E1ECF4',
-          200: '#BDD5E7',
-          300: '#94BCDA',
-          600: '#1E527B',
-          700: '#164265',
-          800: '#123653', // Primary navy
-          900: '#0B2540', // Deep navy
-          DEFAULT: '#123653',
+        // Required exact palette
+        forest: {
+          50: '#F2F7F4',
+          100: '#E2ECE7',
+          200: '#C5D9CF',
+          300: '#9DBEB0',
+          400: '#5F9983',
+          500: '#2A7257',
+          600: '#1E6149',
+          700: '#1A5641',
+          800: '#174D3A', // Primary Deep Forest Green
+          900: '#103729',
+          950: '#092119',
+          DEFAULT: '#174D3A',
         },
-        teal: {
-          50: '#F0FAF9',
-          100: '#E6F5F4',
-          200: '#C2E7E4',
-          300: '#8FD4CF',
-          500: '#0AA699',
-          600: '#078F83', // Primary teal
-          700: '#067568', // Dark teal
-          800: '#055D53',
-          900: '#04423B',
-          DEFAULT: '#078F83',
+        sage: {
+          50: '#F7FAF7',
+          100: '#E8EFE9', // Secondary Muted Sage
+          200: '#D6E2D8',
+          300: '#B9CCC0',
+          400: '#93AE9D',
+          DEFAULT: '#E8EFE9',
+        },
+        warm: {
+          bg: '#FAF9F6', // Main Warm Off-White
+          card: '#FFFFFF',
+          border: '#E4E7E2', // Subtle Neutral Gray
+          hover: '#F3F2EE',
+          muted: '#F5F4F0',
         },
         charcoal: {
-          DEFAULT: '#172B42', // Primary text
-          muted: '#64748B',   // Secondary text
-          subtle: '#94A3B8',
+          DEFAULT: '#202824', // Primary Text
+          muted: '#707873',   // Secondary Muted Gray
+          subtle: '#949E97',
+        },
+        amber: {
+          50: '#FDFBF5',
+          100: '#FBF5E8',
+          200: '#F7E9CE',
+          300: '#F0D59D',
+          400: '#E6B566', // Accent Soft Amber
+          500: '#DDA03D',
+          600: '#B87E25',
+          DEFAULT: '#E6B566',
+        },
+        // Semantic aliases for smooth transition & consistency
+        primary: {
+          DEFAULT: '#174D3A',
+          hover: '#133F30',
+          light: '#E8EFE9',
         },
         surface: {
-          bg: '#F7F9FC',     // Background
-          card: '#FFFFFF',   // Surface
-          border: '#DFE7EF', // Border
-          hover: '#F1F5F9',
+          bg: '#FAF9F6',
+          card: '#FFFFFF',
+          border: '#E4E7E2',
+          hover: '#F3F2EE',
         },
         status: {
-          available: '#0D9876', // Available status
-          'available-bg': '#E6F7F2',
-          occupied: '#6675A8',  // Occupied status
-          'occupied-bg': '#F0F2FA',
+          available: '#174D3A',
+          'available-bg': '#E8EFE9',
+          occupied: '#707873',
+          'occupied-bg': '#EBECE9',
         },
       },
       fontFamily: {
         sans: [
+          'Manrope',
           'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -66,9 +90,9 @@ export default {
         xl: '0.75rem',
       },
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(18, 54, 83, 0.05)',
-        card: '0 1px 3px 0 rgba(18, 54, 83, 0.08), 0 1px 2px -1px rgba(18, 54, 83, 0.04)',
-        elevated: '0 4px 6px -1px rgba(18, 54, 83, 0.08), 0 2px 4px -2px rgba(18, 54, 83, 0.04)',
+        subtle: '0 1px 2px 0 rgba(32, 40, 36, 0.04)',
+        card: '0 1px 3px 0 rgba(32, 40, 36, 0.06), 0 1px 2px -1px rgba(32, 40, 36, 0.04)',
+        elevated: '0 4px 12px -2px rgba(32, 40, 36, 0.08), 0 2px 4px -2px rgba(32, 40, 36, 0.04)',
       },
     },
   },

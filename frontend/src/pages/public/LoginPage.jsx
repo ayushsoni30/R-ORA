@@ -87,7 +87,7 @@ export const LoginPage = () => {
       setTimeout(() => {
         const target = location.state?.from || (res.user.role === 'owner' ? '/owner/dashboard' : '/rooms');
         navigate(target, { replace: true });
-      }, 2200);
+      }, 2000);
     } catch (err) {
       if (err.response?.status === 429) {
         setRateLimitTimer(60);
@@ -104,16 +104,16 @@ export const LoginPage = () => {
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      <div className="max-w-md w-full bg-white border border-surface-border rounded-lg p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="max-w-md w-full bg-white border border-warm-border rounded-xl p-6 sm:p-8 shadow-subtle space-y-6">
         <div className="text-center space-y-2">
           <Link to="/" className="inline-flex items-center justify-center mb-2">
             <Logo size="md" />
           </Link>
-          <h1 className="text-xl font-bold text-navy tracking-tight">
-            Sign In to Your Account
+          <h1 className="text-xl sm:text-2xl font-extrabold text-charcoal tracking-tight">
+            Sign In to Roomora
           </h1>
           <p className="text-xs text-charcoal-muted">
-            Access room listings, manage booking requests, and communicate securely.
+            Access room listings, manage booking requests, and communicate directly with room owners.
           </p>
         </div>
 
@@ -125,9 +125,9 @@ export const LoginPage = () => {
         )}
 
         {rateLimitTimer > 0 && (
-          <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2 text-xs text-amber-800">
+          <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2 text-xs text-amber-900">
             <Clock className="w-4 h-4 shrink-0 text-amber-600" />
-            <span>Rate limit protection active. Retry in <strong>{rateLimitTimer}s</strong>.</span>
+            <span>Rate limit protection active. Please retry in <strong>{rateLimitTimer}s</strong>.</span>
           </div>
         )}
 
@@ -171,40 +171,39 @@ export const LoginPage = () => {
           </Button>
         </form>
 
-        <div className="text-center pt-2 border-t border-surface-border text-xs text-charcoal-muted">
+        <div className="text-center pt-2 border-t border-warm-border text-xs text-charcoal-muted">
           <span>Don't have an account yet? </span>
-          <Link to="/register" className="font-semibold text-teal-600 hover:text-teal-700">
+          <Link to="/register" className="font-bold text-forest-800 hover:underline">
             Create an Account
           </Link>
         </div>
       </div>
 
+      {/* Success Notification Modal */}
       {showSuccessPopup && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/60 backdrop-blur-sm animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/50 backdrop-blur-sm animate-fadeIn"
         >
-          <div className="bg-white rounded-xl border border-surface-border shadow-2xl w-full max-w-sm p-6 text-center space-y-5 animate-scaleUp overflow-hidden relative">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-navy-700 via-teal-600 to-teal-500" />
-
-            <div className="w-14 h-14 rounded-full bg-teal-50 border border-teal-200 text-teal-600 flex items-center justify-center mx-auto shadow-sm">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="bg-white rounded-xl border border-warm-border shadow-elevated w-full max-w-sm p-6 text-center space-y-5 animate-scaleUp overflow-hidden relative">
+            <div className="w-12 h-12 rounded-full bg-sage text-forest-800 flex items-center justify-center mx-auto shadow-subtle border border-sage-300">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
 
             <div className="space-y-1">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">
-                Session Authenticated
+              <span className="text-[11px] font-bold uppercase tracking-wider text-forest-800 bg-sage px-2.5 py-0.5 rounded border border-sage-300">
+                Authenticated
               </span>
-              <h2 className="text-lg font-bold text-navy pt-2">
-                Successfully Logged In as {loggedInUser?.role === 'owner' ? 'Property Owner' : 'Student'}
+              <h2 className="text-lg font-bold text-charcoal pt-2">
+                Welcome back, {loggedInUser?.full_name}!
               </h2>
               <p className="text-xs text-charcoal-muted">
-                Welcome back, {loggedInUser?.full_name}!
+                Signed in as {loggedInUser?.role === 'owner' ? 'Property Owner' : 'Student Seeker'}
               </p>
             </div>
 
-            <div className="bg-surface-bg p-3.5 rounded-lg border border-surface-border flex items-center gap-3 text-left">
+            <div className="bg-warm-bg p-3.5 rounded-lg border border-warm-border flex items-center gap-3 text-left">
               <Avatar src={loggedInUser?.profile_photo} name={loggedInUser?.full_name} size="md" />
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-charcoal truncate">
@@ -220,8 +219,8 @@ export const LoginPage = () => {
             </div>
 
             <div className="space-y-2 pt-1">
-              <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
-                <div className="h-full bg-teal-600 animate-progressBar" />
+              <div className="w-full bg-warm-muted h-1 rounded-full overflow-hidden">
+                <div className="h-full bg-forest-800 animate-progressBar" />
               </div>
               <Button
                 variant="primary"

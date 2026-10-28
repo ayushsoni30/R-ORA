@@ -225,8 +225,8 @@ export const RoomFormPage = () => {
   if (isLoading) {
     return (
       <div className="py-16 flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
-        <p className="text-xs text-charcoal-muted">Loading room data...</p>
+        <Loader2 className="w-8 h-8 animate-spin text-forest-800" />
+        <p className="text-xs text-charcoal-muted">Loading room listing...</p>
       </div>
     );
   }
@@ -236,20 +236,20 @@ export const RoomFormPage = () => {
       <div>
         <Link
           to="/owner/rooms"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-charcoal-muted hover:text-navy-800 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-charcoal-muted hover:text-forest-800 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to My Listings</span>
         </Link>
       </div>
 
-      <div className="bg-white border border-surface-border rounded-lg p-6 sm:p-8 shadow-card space-y-6">
-        <div className="border-b border-surface-border pb-4">
-          <h1 className="text-xl font-bold text-navy-800 tracking-tight">
-            {isEditMode ? 'Edit Property Listing' : 'Post a New Room Listing'}
+      <div className="bg-white border border-warm-border rounded-xl p-6 sm:p-8 shadow-subtle space-y-6">
+        <div className="border-b border-warm-border pb-4">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-charcoal tracking-tight">
+            {isEditMode ? 'Edit Room Listing' : 'List a New Student Room'}
           </h1>
           <p className="text-xs text-charcoal-muted mt-1">
-            Provide accurate accommodation details and photos. Images are stored securely on Cloudinary and displayed to students.
+            Provide room details, pricing, occupant capacity, and authentic photos for students.
           </p>
         </div>
 
@@ -261,112 +261,134 @@ export const RoomFormPage = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Input
-            label="Property / Room Title"
-            id="title"
-            name="title"
-            required
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            error={errors.title}
-            placeholder="e.g. Spacious Single Bedroom near University Campus"
-            helperText="3 to 100 characters."
-          />
+          {/* Section 1: Basic Information */}
+          <div className="space-y-4">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-forest-800">
+              1. Basic Information
+            </h2>
 
-          <Input
-            label="Location & Address"
-            id="location"
-            name="location"
-            required
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            error={errors.location}
-            placeholder="e.g. Sector 62, Near Metro Station, Noida"
-            helperText="Clear location helps students search accurately."
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Monthly Rent (₹ INR)"
-              id="monthly_rent"
-              name="monthly_rent"
-              type="number"
-              min="1"
-              step="any"
+              label="Property / Room Title"
+              id="title"
+              name="title"
               required
-              value={formData.monthly_rent}
-              onChange={(e) => setFormData({ ...formData, monthly_rent: e.target.value })}
-              error={errors.monthly_rent}
-              placeholder="e.g. 7500"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              error={errors.title}
+              placeholder="e.g. Spacious Single Bedroom near University Campus"
+              helperText="3 to 100 characters."
             />
 
             <Input
-              label="Max Student Occupants"
-              id="max_occupants"
-              name="max_occupants"
-              type="number"
-              min="1"
-              max="20"
+              label="Location & Address"
+              id="location"
+              name="location"
               required
-              value={formData.max_occupants}
-              onChange={(e) => setFormData({ ...formData, max_occupants: e.target.value })}
-              error={errors.max_occupants}
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              error={errors.location}
+              placeholder="e.g. Sector 62, Near Metro Station, Noida"
+              helperText="Clear location helps students find rooms through search."
             />
           </div>
 
-          <Input
-            label="Expected Vacancy Date"
-            id="expected_vacancy_date"
-            name="expected_vacancy_date"
-            type="date"
-            value={formData.expected_vacancy_date}
-            onChange={(e) => setFormData({ ...formData, expected_vacancy_date: e.target.value })}
-            error={errors.expected_vacancy_date}
-            helperText="Leave empty if the room is available immediately."
-          />
+          {/* Section 2: Pricing & Occupancy */}
+          <div className="space-y-4 pt-4 border-t border-warm-border">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-forest-800">
+              2. Pricing &amp; Occupancy
+            </h2>
 
-          <Textarea
-            label="Room Description & Amenities"
-            id="description"
-            name="description"
-            required
-            rows={4}
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            error={errors.description}
-            placeholder="Describe the room, furniture, WiFi, attached bathroom, proximity to university, study desk, etc."
-            helperText="10 to 1000 characters."
-          />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Monthly Rent (₹ INR)"
+                id="monthly_rent"
+                name="monthly_rent"
+                type="number"
+                min="1"
+                step="any"
+                required
+                value={formData.monthly_rent}
+                onChange={(e) => setFormData({ ...formData, monthly_rent: e.target.value })}
+                error={errors.monthly_rent}
+                placeholder="e.g. 7500"
+              />
 
-          <div className="pt-4 border-t border-surface-border space-y-3">
+              <Input
+                label="Max Student Occupants"
+                id="max_occupants"
+                name="max_occupants"
+                type="number"
+                min="1"
+                max="20"
+                required
+                value={formData.max_occupants}
+                onChange={(e) => setFormData({ ...formData, max_occupants: e.target.value })}
+                error={errors.max_occupants}
+              />
+            </div>
+
+            <Input
+              label="Expected Vacancy Date"
+              id="expected_vacancy_date"
+              name="expected_vacancy_date"
+              type="date"
+              value={formData.expected_vacancy_date}
+              onChange={(e) => setFormData({ ...formData, expected_vacancy_date: e.target.value })}
+              error={errors.expected_vacancy_date}
+              helperText="Leave empty if the room is available immediately."
+            />
+          </div>
+
+          {/* Section 3: Room Description & Amenities */}
+          <div className="space-y-4 pt-4 border-t border-warm-border">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-forest-800">
+              3. Room Details &amp; Amenities
+            </h2>
+
+            <Textarea
+              label="Room Description & Amenities"
+              id="description"
+              name="description"
+              required
+              rows={4}
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              error={errors.description}
+              placeholder="Describe the room, furniture, WiFi, attached bathroom, proximity to university, study desk, etc."
+              helperText="10 to 1000 characters."
+            />
+          </div>
+
+          {/* Section 4: Photography */}
+          <div className="space-y-3 pt-4 border-t border-warm-border">
             <div className="flex items-center justify-between">
               <div>
-                <label className="block text-xs font-semibold text-navy-800 uppercase tracking-wider">
-                  Room Photos (Cloudinary)
+                <label className="block text-xs font-bold text-charcoal uppercase tracking-wider">
+                  Room Photos
                 </label>
                 <p className="text-[11px] text-charcoal-muted mt-0.5">
-                  Upload photos of your room. Students can see these verified photos when browsing.
+                  Upload authentic photographs of the room and amenities.
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowUrlInput(!showUrlInput)}
-                className="text-xs text-teal-600 hover:text-teal-700 font-medium inline-flex items-center gap-1"
+                className="text-xs text-forest-800 hover:text-forest-900 font-semibold inline-flex items-center gap-1"
               >
                 <LinkIcon className="w-3.5 h-3.5" />
-                <span>{showUrlInput ? 'Hide URL Input' : 'Paste Cloudinary URL'}</span>
+                <span>{showUrlInput ? 'Hide URL Input' : 'Paste Image URL'}</span>
               </button>
             </div>
 
             {showUrlInput && (
-              <div className="flex gap-2 p-3 bg-surface-bg border border-surface-border rounded-md">
+              <div className="flex gap-2 p-3 bg-warm-bg border border-warm-border rounded-md">
                 <input
                   type="url"
                   placeholder="https://res.cloudinary.com/.../room.jpg"
                   value={imageInputUrl}
                   onChange={(e) => setImageInputUrl(e.target.value)}
-                  className="flex-1 text-xs px-3 py-2 bg-white border border-surface-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="flex-1 text-xs px-3 py-2 bg-white border border-warm-border rounded-md text-charcoal focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
                 <Button variant="secondary" size="sm" onClick={handleAddImageUrl}>
                   Add URL
@@ -375,15 +397,15 @@ export const RoomFormPage = () => {
             )}
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <label className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-surface-border hover:border-teal-600 hover:bg-teal-50/50 rounded-md text-xs font-semibold text-navy-800 cursor-pointer transition-colors shadow-subtle">
+              <label className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-warm-border hover:border-forest-800 hover:bg-sage/40 rounded-md text-xs font-bold text-charcoal cursor-pointer transition-colors shadow-subtle">
                 {isUploadingImage ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-teal-600" />
+                    <Loader2 className="w-4 h-4 animate-spin text-forest-800" />
                     <span>Uploading Image...</span>
                   </>
                 ) : (
                   <>
-                    <Upload className="w-4 h-4 text-teal-600" />
+                    <Upload className="w-4 h-4 text-forest-800" />
                     <span>Upload Room Photo</span>
                   </>
                 )}
@@ -401,31 +423,32 @@ export const RoomFormPage = () => {
               </span>
             </div>
 
+            {/* Uploaded Images Preview Grid */}
             {formData.images && formData.images.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                 {formData.images.map((imgUrl, idx) => (
                   <div
                     key={idx}
-                    className="relative aspect-[16/10] rounded-lg overflow-hidden border border-surface-border group shadow-subtle bg-slate-100"
+                    className="relative aspect-[16/10] rounded-lg overflow-hidden border border-warm-border group shadow-subtle bg-warm-muted"
                   >
                     <img
                       src={imgUrl}
                       alt={`Room photo ${idx + 1}`}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-navy-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <div className="absolute inset-0 bg-charcoal/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(idx)}
-                        className="p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-md shadow"
+                        className="p-1.5 bg-rose-700 hover:bg-rose-800 text-white rounded-md shadow"
                         title="Remove image"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                     {idx === 0 && (
-                      <span className="absolute bottom-1.5 left-1.5 bg-navy-900/80 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">
-                        Primary Cover
+                      <span className="absolute bottom-1.5 left-1.5 bg-charcoal/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                        Cover Photo
                       </span>
                     )}
                   </div>
@@ -434,7 +457,8 @@ export const RoomFormPage = () => {
             )}
           </div>
 
-          <div className="pt-4 border-t border-surface-border flex items-center justify-end gap-3">
+          {/* Form Actions */}
+          <div className="pt-4 border-t border-warm-border flex items-center justify-end gap-3">
             <Link to="/owner/rooms">
               <Button variant="outline" size="md" disabled={isSubmitting}>
                 Cancel

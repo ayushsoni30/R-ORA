@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { CheckCircle, AlertTriangle, XCircle, Info, X } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, XCircle, Info, X } from 'lucide-react';
 
 const ToastContext = createContext(null);
 
@@ -31,7 +31,7 @@ export const ToastProvider = ({ children }) => {
     addToast({ type: 'error', message, title, duration: 6000 });
   }, [addToast]);
 
-  const warning = useCallback((message, title = 'Warning') => {
+  const warning = useCallback((message, title = 'Notice') => {
     addToast({ type: 'warning', message, title });
   }, [addToast]);
 
@@ -48,44 +48,44 @@ export const ToastProvider = ({ children }) => {
       >
         {toasts.map((toast) => {
           const typeStyles = {
-            success: 'bg-emerald-50 border-emerald-200 text-emerald-900',
-            error: 'bg-rose-50 border-rose-200 text-rose-900',
-            warning: 'bg-amber-50 border-amber-200 text-amber-900',
-            info: 'bg-blue-50 border-blue-200 text-blue-900',
+            success: 'bg-white border-forest-800/30 text-charcoal',
+            error: 'bg-white border-rose-300 text-charcoal',
+            warning: 'bg-white border-amber-400 text-charcoal',
+            info: 'bg-white border-warm-border text-charcoal',
           }[toast.type];
 
           const IconComponent = {
-            success: CheckCircle,
+            success: CheckCircle2,
             error: XCircle,
             warning: AlertTriangle,
             info: Info,
           }[toast.type];
 
           const iconColor = {
-            success: 'text-emerald-600',
-            error: 'text-rose-600',
+            success: 'text-forest-800',
+            error: 'text-rose-700',
             warning: 'text-amber-600',
-            info: 'text-blue-600',
+            info: 'text-forest-800',
           }[toast.type];
 
           return (
             <div
               key={toast.id}
               role="status"
-              className={`pointer-events-auto border rounded-md p-3 shadow-sm flex items-start gap-3 transition-all ${typeStyles}`}
+              className={`pointer-events-auto border rounded-md p-3.5 shadow-elevated flex items-start gap-3 transition-all animate-fadeIn ${typeStyles}`}
             >
               <IconComponent className={`w-5 h-5 shrink-0 mt-0.5 ${iconColor}`} />
               <div className="flex-1 text-sm">
-                {toast.title && <p className="font-semibold">{toast.title}</p>}
-                <p className="text-xs leading-relaxed mt-0.5 opacity-90">{toast.message}</p>
+                {toast.title && <p className="font-bold text-xs uppercase tracking-wider text-charcoal">{toast.title}</p>}
+                <p className="text-xs text-charcoal-muted leading-relaxed mt-0.5">{toast.message}</p>
               </div>
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
-                className="shrink-0 p-1 rounded hover:bg-black/5 opacity-70 hover:opacity-100"
+                className="shrink-0 p-1 rounded hover:bg-warm-hover text-charcoal-muted hover:text-charcoal"
                 aria-label="Dismiss notification"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
           );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, PlusCircle, AlertTriangle, Loader2 } from 'lucide-react';
+import { Building, Plus, AlertTriangle, Loader2 } from 'lucide-react';
 import { roomService } from '../../services/roomService';
 import { useToast } from '../../context/ToastContext';
 import { getErrorMessage } from '../../services/api';
@@ -23,7 +23,7 @@ export const OwnerRoomsPage = () => {
     setIsLoading(true);
     try {
       const data = await roomService.getOwnerRooms();
-      setRooms(data);
+      setRooms(data || []);
     } catch (err) {
       error(getErrorMessage(err));
     } finally {
@@ -74,25 +74,25 @@ export const OwnerRoomsPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-surface-border pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-warm-border pb-5">
         <div>
-          <h1 className="text-2xl font-bold text-navy tracking-tight">
-            My Property Listings
+          <h1 className="text-2xl font-extrabold text-charcoal tracking-tight">
+            My Room Listings
           </h1>
           <p className="text-xs text-charcoal-muted mt-1">
             Manage your accommodation listings, toggle real-time availability, and update details.
           </p>
         </div>
         <Link to="/owner/rooms/new">
-          <Button variant="primary" size="md" icon={PlusCircle}>
-            Post New Room
+          <Button variant="primary" size="md" icon={Plus}>
+            List New Room
           </Button>
         </Link>
       </div>
 
       {isLoading ? (
         <div className="py-16 flex flex-col items-center justify-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-forest-800" />
           <p className="text-xs text-charcoal-muted">Loading your property listings...</p>
         </div>
       ) : rooms.length > 0 ? (
@@ -110,19 +110,20 @@ export const OwnerRoomsPage = () => {
         </div>
       ) : (
         <EmptyState
-          icon={Building2}
+          icon={Building}
           title="No properties listed yet"
-          description="You haven't listed any student rooms yet. Click below to add your first property listing."
+          description="You haven't listed any student rooms yet. Click below to add your first room."
           action={
             <Link to="/owner/rooms/new">
-              <Button variant="primary" size="md" icon={PlusCircle}>
-                Post Your First Room
+              <Button variant="primary" size="md" icon={Plus}>
+                List Your First Room
               </Button>
             </Link>
           }
         />
       )}
 
+      {/* Delete Confirmation Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
@@ -148,14 +149,14 @@ export const OwnerRoomsPage = () => {
           </>
         }
       >
-        <div className="space-y-2 text-xs text-charcoal-muted leading-relaxed">
+        <div className="space-y-3 text-xs text-charcoal leading-relaxed">
           <p>
-            Are you sure you want to permanently delete this room listing?
+            Are you sure you want to permanently delete this room listing from Roomora?
           </p>
-          <div className="bg-amber-50 border border-amber-200 rounded p-2.5 text-amber-900 flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="bg-amber-50 border border-amber-300 rounded p-3 text-amber-950 flex items-start gap-2.5">
+            <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
             <span>
-              <strong>Safety Guard:</strong> Rooms with an active accepted student booking cannot be deleted. Any pending requests will be cancelled automatically.
+              <strong>Platform Rule:</strong> Rooms with an active accepted booking cannot be deleted. Any pending requests will be cancelled automatically.
             </span>
           </div>
         </div>

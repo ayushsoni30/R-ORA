@@ -1,15 +1,15 @@
 import React from 'react';
-import { FileText, CheckCircle2, AlertCircle, AlertTriangle } from 'lucide-react';
+import { FileText, AlertTriangle } from 'lucide-react';
 
 export const TermsPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      <div className="border-b border-surface-border pb-6">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-navy-50 border border-navy-100 rounded text-xs font-semibold text-navy-800 uppercase tracking-wider mb-3">
-          <FileText className="w-3.5 h-3.5 text-teal-600" />
+      <div className="border-b border-warm-border pb-6">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-sage text-forest-800 rounded text-xs font-bold uppercase tracking-wider mb-3 border border-sage-300">
+          <FileText className="w-3.5 h-3.5 text-forest-800" />
           <span>User Agreement &amp; Rental Policies</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-navy-800 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
           Terms and Conditions
         </h1>
         <p className="text-xs text-charcoal-muted mt-1">
@@ -17,7 +17,7 @@ export const TermsPage = () => {
         </p>
       </div>
 
-      <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-5 flex items-start gap-3.5 shadow-subtle">
+      <div className="bg-amber-50 border border-amber-300 rounded-lg p-5 flex items-start gap-3.5 shadow-subtle">
         <AlertTriangle className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
         <div className="text-xs text-amber-950 space-y-1.5 leading-relaxed">
           <p className="font-bold text-sm text-amber-950 uppercase tracking-wide">
@@ -31,14 +31,14 @@ export const TermsPage = () => {
 
       <div className="prose prose-slate max-w-none text-xs sm:text-sm text-charcoal space-y-6 leading-relaxed">
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-navy-800">1. Acceptance of Terms</h2>
+          <h2 className="text-base font-bold text-charcoal">1. Acceptance of Terms</h2>
           <p>
             By creating an account, browsing listings, or submitting booking requests on Roomora, you agree to comply with and be bound by these Terms and Conditions. If you disagree with any part of these terms, you should discontinue use of the platform.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-navy-800">2. Student &amp; Room Seeker Obligations</h2>
+          <h2 className="text-base font-bold text-charcoal">2. Student &amp; Room Seeker Obligations</h2>
           <ul className="list-disc pl-5 space-y-1 text-charcoal-muted">
             <li>Users must provide accurate, current, and complete personal and contact information during registration.</li>
             <li>Booking requests should represent a genuine intent to occupy or visit the listing.</li>
@@ -48,7 +48,7 @@ export const TermsPage = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-navy-800">3. Property Owner Obligations</h2>
+          <h2 className="text-base font-bold text-charcoal">3. Property Owner Obligations</h2>
           <ul className="list-disc pl-5 space-y-1 text-charcoal-muted">
             <li>Owners warrant that property listings are authentic, accurately represented, and that the owner has the legal authority to rent the premises.</li>
             <li>Listing information including monthly rent, location, and maximum occupant capacity must be factual.</li>
@@ -58,7 +58,7 @@ export const TermsPage = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-navy-800">4. Booking Process and Mutual Contact Disclosure</h2>
+          <h2 className="text-base font-bold text-charcoal">4. Booking Process and Mutual Contact Disclosure</h2>
           <p>
             Roomora operates strictly as a connection and discovery facilitator. Submitting a booking request does not constitute a tenancy agreement until both parties mutually confirm and finalize terms.
           </p>
@@ -67,9 +67,9 @@ export const TermsPage = () => {
           </p>
         </section>
 
-        <section className="space-y-3 p-5 bg-surface-bg border border-surface-border rounded-lg">
-          <h2 className="text-base font-bold text-navy-800 flex items-center gap-2">
-            <span>5. Booking Advance &amp; Non-Refundability Policy</span>
+        <section className="space-y-3 p-5 bg-white border border-warm-border rounded-lg shadow-subtle">
+          <h2 className="text-base font-bold text-charcoal">
+            5. Booking Advance &amp; Non-Refundability Policy
           </h2>
           <p className="font-semibold text-rose-700 text-xs">
             Notice Regarding Booking Advances and Reservation Deposits:
@@ -94,7 +94,7 @@ export const TermsPage = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-navy-800">6. Platform Disclaimers and Limitations</h2>
+          <h2 className="text-base font-bold text-charcoal">6. Platform Disclaimers and Limitations</h2>
           <p>
             Roomora does not handle physical security deposits or on-platform rent payments. All monetary transactions, lease agreements, and physical inspections occur directly between students and property owners. Roomora shall not be liable for disagreements arising outside platform functionality.
           </p>

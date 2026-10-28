@@ -31,17 +31,17 @@ export const Avatar = ({
       <img
         src={src}
         alt={name || 'Profile photo'}
-        className={`${sizeClasses[size] || sizeClasses.md} rounded-full object-cover border border-surface-border shadow-sm shrink-0 ${className}`}
+        className={`${sizeClasses[size] || sizeClasses.md} rounded-full object-cover border border-warm-border shadow-subtle shrink-0 ${className}`}
       />
     );
   }
 
   return (
     <div
-      className={`${sizeClasses[size] || sizeClasses.md} rounded-full bg-navy-100 text-navy-700 font-semibold flex items-center justify-center border border-navy-200 select-none shrink-0 ${className}`}
+      className={`${sizeClasses[size] || sizeClasses.md} rounded-full bg-sage text-forest-800 font-bold flex items-center justify-center border border-sage-300/80 select-none shrink-0 ${className}`}
       title={name}
     >
-      {initials ? initials : <User className="w-1/2 h-1/2 text-navy-600" />}
+      {initials ? initials : <User className="w-1/2 h-1/2 text-forest-800" />}
     </div>
   );
 };

@@ -44,7 +44,6 @@ export const OwnerDashboardPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-surface-border pb-5">
         <div>
           <h1 className="text-2xl font-bold text-navy tracking-tight">
@@ -63,7 +62,6 @@ export const OwnerDashboardPage = () => {
         </div>
       </div>
 
-      {/* KPI Stats Grid */}
       {isLoading ? (
         <div className="py-12 flex flex-col items-center justify-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
@@ -71,7 +69,6 @@ export const OwnerDashboardPage = () => {
         </div>
       ) : stats ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* Total Rooms */}
           <div className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-2">
             <div className="flex items-center justify-between text-charcoal-muted">
               <span className="text-xs font-semibold uppercase tracking-wider">Total Properties</span>
@@ -81,7 +78,6 @@ export const OwnerDashboardPage = () => {
             <p className="text-[11px] text-charcoal-muted">All registered accommodations</p>
           </div>
 
-          {/* Available Rooms */}
           <div className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-2">
             <div className="flex items-center justify-between text-teal-600">
               <span className="text-xs font-semibold uppercase tracking-wider">Available Rooms</span>
@@ -91,7 +87,6 @@ export const OwnerDashboardPage = () => {
             <p className="text-[11px] text-charcoal-muted">Accepting student requests</p>
           </div>
 
-          {/* Occupied Rooms */}
           <div className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-2">
             <div className="flex items-center justify-between text-charcoal-muted">
               <span className="text-xs font-semibold uppercase tracking-wider">Occupied</span>
@@ -101,7 +96,6 @@ export const OwnerDashboardPage = () => {
             <p className="text-[11px] text-charcoal-muted">Rented to students</p>
           </div>
 
-          {/* Pending Requests */}
           <div className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-2">
             <div className="flex items-center justify-between text-amber-600">
               <span className="text-xs font-semibold uppercase tracking-wider">Pending Requests</span>
@@ -113,9 +107,7 @@ export const OwnerDashboardPage = () => {
         </div>
       ) : null}
 
-      {/* Quick Action Navigation Panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-        {/* Manage Listings Panel */}
         <div className="bg-white border border-surface-border rounded-lg p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -138,7 +130,6 @@ export const OwnerDashboardPage = () => {
           </div>
         </div>
 
-        {/* Booking Requests Inbox Panel */}
         <div className="bg-white border border-surface-border rounded-lg p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">

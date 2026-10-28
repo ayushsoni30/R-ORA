@@ -69,7 +69,6 @@ async def search_rooms(
     if not stripped_location:
         return []
 
-    # Escape regex characters to prevent regex injection and ReDoS vulnerabilities
     escaped_location = re.escape(stripped_location)
 
     rooms = await database.rooms.find(
@@ -298,7 +297,6 @@ async def delete_room(
             detail="Invalid room ID",
         )
 
-    # Check if room exists and belongs to current owner
     room = await database.rooms.find_one(
         {"_id": room_object_id, "owner_id": current_user["_id"]}
     )
@@ -308,7 +306,6 @@ async def delete_room(
             detail="Room not found",
         )
 
-    # Business rule: Disallow deleting a room with an active accepted booking
     active_booking = await database.bookings.find_one(
         {"room_id": room_object_id, "status": "accepted"}
     )
@@ -318,7 +315,6 @@ async def delete_room(
             detail="Cannot delete room with an active accepted booking. Please coordinate checkout or cancellation first.",
         )
 
-    # Automatically cancel any pending requests for this room to avoid orphaned bookings
     await database.bookings.update_many(
         {"room_id": room_object_id, "status": "pending"},
         {"$set": {"status": "cancelled"}},
@@ -356,7 +352,6 @@ async def update_room_status(
             detail="Only owners can update room status",
         )
 
-    # Resolve target status from JSON body or query param
     target_status = status_update.status if status_update else room_status
 
     if not target_status or target_status not in ["available", "occupied"]:

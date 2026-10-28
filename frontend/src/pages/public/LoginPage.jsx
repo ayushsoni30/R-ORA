@@ -24,7 +24,6 @@ export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [rateLimitTimer, setRateLimitTimer] = useState(0);
 
-  // Success Popup State
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -82,11 +81,9 @@ export const LoginPage = () => {
         password: formData.password,
       });
 
-      // Show smooth professional success popup
       setLoggedInUser(res.user);
       setShowSuccessPopup(true);
 
-      // Auto redirect after 2 seconds
       setTimeout(() => {
         const target = location.state?.from || (res.user.role === 'owner' ? '/owner/dashboard' : '/rooms');
         navigate(target, { replace: true });
@@ -182,7 +179,6 @@ export const LoginPage = () => {
         </div>
       </div>
 
-      {/* Smooth Professional Login Success Popup */}
       {showSuccessPopup && (
         <div
           role="dialog"
@@ -190,7 +186,6 @@ export const LoginPage = () => {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/60 backdrop-blur-sm animate-fadeIn"
         >
           <div className="bg-white rounded-xl border border-surface-border shadow-2xl w-full max-w-sm p-6 text-center space-y-5 animate-scaleUp overflow-hidden relative">
-            {/* Top decorative accent bar */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-navy-700 via-teal-600 to-teal-500" />
 
             <div className="w-14 h-14 rounded-full bg-teal-50 border border-teal-200 text-teal-600 flex items-center justify-center mx-auto shadow-sm">
@@ -209,7 +204,6 @@ export const LoginPage = () => {
               </p>
             </div>
 
-            {/* User Profile Card Snippet */}
             <div className="bg-surface-bg p-3.5 rounded-lg border border-surface-border flex items-center gap-3 text-left">
               <Avatar src={loggedInUser?.profile_photo} name={loggedInUser?.full_name} size="md" />
               <div className="flex-1 min-w-0">
@@ -225,7 +219,6 @@ export const LoginPage = () => {
               </Badge>
             </div>
 
-            {/* Auto-redirect indicator */}
             <div className="space-y-2 pt-1">
               <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
                 <div className="h-full bg-teal-600 animate-progressBar" />

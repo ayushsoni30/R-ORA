@@ -39,7 +39,6 @@ export const StudentBookingsPage = () => {
       const data = await bookingService.getMyBookings();
       setBookings(data);
 
-      // Hydrate room info
       const roomIds = [...new Set(data.map((b) => b.room_id))];
       const roomsMap = {};
       await Promise.all(
@@ -54,7 +53,6 @@ export const StudentBookingsPage = () => {
       );
       setRoomDetailsMap(roomsMap);
 
-      // Hydrate owner contact for accepted bookings
       const contactsMap = {};
       await Promise.all(
         data
@@ -171,7 +169,6 @@ export const StudentBookingsPage = () => {
                   </div>
                 </div>
 
-                {/* Accepted: Disclose Owner Phone and Email */}
                 {isAccepted && (
                   <div className="bg-teal-50/70 border border-teal-200 rounded-md p-4 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -204,7 +201,6 @@ export const StudentBookingsPage = () => {
                           </div>
                         </div>
 
-                        {/* Phone and Email details */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100 text-xs">
                           <div className="flex items-center justify-between p-2.5 bg-surface-bg rounded border border-surface-border">
                             <div className="flex items-center gap-2">
@@ -312,7 +308,6 @@ export const StudentBookingsPage = () => {
         />
       )}
 
-      {/* Cancel Confirmation Modal */}
       <Modal
         isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}

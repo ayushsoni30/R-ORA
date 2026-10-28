@@ -16,7 +16,6 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
-    # CORS Configuration
     CORS_ORIGINS: List[str] = [
         "http://localhost:5173",
         "http://localhost:3000",
@@ -33,11 +32,9 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    # Rate Limiting Configuration
     RATE_LIMIT_LOGIN: str = "5/minute"
     RATE_LIMIT_REGISTER: str = "5/minute"
 
-    # Pagination Defaults
     DEFAULT_PAGE_SIZE: int = 20
     MAX_PAGE_SIZE: int = 100
 

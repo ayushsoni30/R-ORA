@@ -123,7 +123,6 @@ export const OwnerRoomsPage = () => {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

@@ -163,7 +163,6 @@ export const ProfilePage = () => {
       </div>
 
       <div className="bg-white border border-surface-border rounded-lg p-6 sm:p-8 shadow-sm space-y-6">
-        {/* Photo and Account Badge */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 p-5 bg-surface-bg rounded-lg border border-surface-border">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div className="relative group">

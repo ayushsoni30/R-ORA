@@ -14,20 +14,17 @@ from app.schemas.booking import BookingCreate, BookingStatusUpdate
 router = APIRouter(prefix="/api/bookings", tags=["Bookings"])
 
 
-# CREATE BOOKING REQUEST API
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_booking(
     booking: BookingCreate,
     current_user: dict = Depends(get_current_user),
 ):
-    # Only students can send booking requests
     if current_user.get("role") != "student":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only students can request bookings",
         )
 
-    # Validate room ID
     try:
         room_object_id = ObjectId(booking.room_id)
     except (InvalidId, ValueError):
@@ -36,7 +33,6 @@ async def create_booking(
             detail="Invalid room ID",
         )
 
-    # Find room
     room = await database.rooms.find_one({"_id": room_object_id})
 
     if room is None:
@@ -45,14 +41,12 @@ async def create_booking(
             detail="Room not found",
         )
 
-    # Only available rooms can be requested
     if room.get("status") != "available":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="This room is not available for booking",
         )
 
-    # Prevent duplicate pending requests
     existing_booking = await database.bookings.find_one(
         {
             "room_id": room_object_id,
@@ -67,7 +61,6 @@ async def create_booking(
             detail="You already have a pending request for this room",
         )
 
-    # Save booking request
     new_booking = {
         "room_id": room_object_id,
         "student_id": current_user["_id"],
@@ -79,7 +72,6 @@ async def create_booking(
     try:
         result = await database.bookings.insert_one(new_booking)
     except DuplicateKeyError:
-        # Caught by MongoDB unique partial index under concurrent duplicate calls
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="You already have a pending request for this room",
@@ -144,7 +136,6 @@ async def update_booking_status(
         )
 
     if target_status == "accepted":
-        # ATOMIC OPERATION 1: Claim room only if status is currently 'available'
         claimed_room = await database.rooms.find_one_and_update(
             {"_id": existing_booking["room_id"], "status": "available"},
             {"$set": {"status": "occupied"}},
@@ -157,14 +148,12 @@ async def update_booking_status(
                 detail="Room is no longer available",
             )
 
-        # ATOMIC OPERATION 2: Accept target booking (conditional on status remaining 'pending')
         booking_update_result = await database.bookings.update_one(
             {"_id": booking_object_id, "status": "pending"},
             {"$set": {"status": "accepted"}},
         )
 
         if booking_update_result.modified_count == 0:
-            # Race condition: booking was cancelled simultaneously. Roll back room claim!
             await database.rooms.update_one(
                 {"_id": existing_booking["room_id"]},
                 {"$set": {"status": "available"}},
@@ -174,7 +163,6 @@ async def update_booking_status(
                 detail="Booking request is no longer pending",
             )
 
-        # ATOMIC OPERATION 3: Reject all competing pending requests for the same room
         await database.bookings.update_many(
             {
                 "room_id": existing_booking["room_id"],
@@ -185,7 +173,6 @@ async def update_booking_status(
         )
 
     else:
-        # Target status == "rejected"
         await database.bookings.update_one(
             {"_id": booking_object_id},
             {"$set": {"status": "rejected"}},
@@ -405,7 +392,6 @@ async def cancel_booking(
             detail="Invalid booking ID",
         )
 
-    # Atomic conditional update: cancel only if current status is 'pending'
     result = await database.bookings.update_one(
         {
             "_id": booking_object_id,
@@ -416,7 +402,6 @@ async def cancel_booking(
     )
 
     if result.matched_count == 0:
-        # Check if booking exists
         booking = await database.bookings.find_one(
             {
                 "_id": booking_object_id,

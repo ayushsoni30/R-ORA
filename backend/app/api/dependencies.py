@@ -32,7 +32,6 @@ async def get_current_user(
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        # Exclude password hash from the user context for application security
         user = await database.users.find_one(
             {"_id": ObjectId(user_id)},
             {"password": 0},

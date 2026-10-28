@@ -27,12 +27,11 @@ export const OwnerBookingsPage = () => {
 
   const [bookings, setBookings] = useState([]);
   const [roomMap, setRoomMap] = useState({});
-  const [statusFilter, setStatusFilter] = useState('all'); // 'all', 'pending', 'accepted', 'rejected'
+  const [statusFilter, setStatusFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Decision Modal State
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [decisionAction, setDecisionAction] = useState(null); // 'accepted' or 'rejected'
+  const [decisionAction, setDecisionAction] = useState(null);
   const [isDecisionModalOpen, setIsDecisionModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -42,7 +41,6 @@ export const OwnerBookingsPage = () => {
       const data = await bookingService.getOwnerBookings();
       setBookings(data);
 
-      // Hydrate room info
       const uniqueRoomIds = [...new Set(data.map((b) => b.room_id))];
       const rMap = {};
       await Promise.all(
@@ -112,7 +110,6 @@ export const OwnerBookingsPage = () => {
           </p>
         </div>
 
-        {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-md self-start sm:self-auto text-xs font-medium">
           {['all', 'pending', 'accepted', 'rejected'].map((tab) => (
             <button
@@ -159,7 +156,6 @@ export const OwnerBookingsPage = () => {
                 key={booking.id}
                 className="bg-white border border-surface-border rounded-lg p-5 shadow-sm space-y-4"
               >
-                {/* Header: Room & Status */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-border pb-3">
                   <div>
                     <div className="flex items-center gap-2">
@@ -188,7 +184,6 @@ export const OwnerBookingsPage = () => {
                   </div>
                 </div>
 
-                {/* Student Applicant Information Card */}
                 <div className="p-4 bg-surface-bg rounded-lg border border-surface-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <Avatar
@@ -206,7 +201,6 @@ export const OwnerBookingsPage = () => {
                         </Badge>
                       </div>
 
-                      {/* Applicant Demographics: Gender and Age */}
                       <div className="flex flex-wrap items-center gap-3 text-xs text-charcoal-muted mt-1">
                         {booking.student_gender && (
                           <span className="inline-flex items-center gap-1">
@@ -225,7 +219,6 @@ export const OwnerBookingsPage = () => {
                     </div>
                   </div>
 
-                  {/* Actions for Pending */}
                   {isPending && (
                     <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
                       <Button
@@ -248,7 +241,6 @@ export const OwnerBookingsPage = () => {
                   )}
                 </div>
 
-                {/* Accepted: Disclose Student Phone and Email */}
                 {isAccepted && (
                   <div className="bg-teal-50 border border-teal-200 rounded-md p-4 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -316,7 +308,6 @@ export const OwnerBookingsPage = () => {
         />
       )}
 
-      {/* Decision Confirmation Modal */}
       <Modal
         isOpen={isDecisionModalOpen}
         onClose={() => setIsDecisionModalOpen(false)}

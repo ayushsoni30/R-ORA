@@ -17,7 +17,6 @@ router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 password_hash = PasswordHash.recommended()
 
 
-# REGISTER API
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 @limiter.limit(settings.RATE_LIMIT_REGISTER)
 async def register_user(request: Request, user: UserRegister):
@@ -65,7 +64,6 @@ async def register_user(request: Request, user: UserRegister):
     }
 
 
-# LOGIN API
 @router.post("/login")
 @limiter.limit(settings.RATE_LIMIT_LOGIN)
 async def login_user(request: Request, user: UserLogin):

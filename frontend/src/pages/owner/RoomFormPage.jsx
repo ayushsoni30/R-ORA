@@ -93,7 +93,6 @@ export const RoomFormPage = () => {
     };
   }, [id, isEditMode, location.state, error, navigate]);
 
-  // Handle Cloudinary Image File Upload
   const handleImageFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -118,7 +117,6 @@ export const RoomFormPage = () => {
     }
   };
 
-  // Handle direct Cloudinary URL paste
   const handleAddImageUrl = (e) => {
     e.preventDefault();
     const url = imageInputUrl.trim();
@@ -340,7 +338,6 @@ export const RoomFormPage = () => {
             helperText="10 to 1000 characters."
           />
 
-          {/* Cloudinary Room Photos Upload Section */}
           <div className="pt-4 border-t border-surface-border space-y-3">
             <div className="flex items-center justify-between">
               <div>
@@ -362,7 +359,6 @@ export const RoomFormPage = () => {
               </button>
             </div>
 
-            {/* Direct URL Paste Form */}
             {showUrlInput && (
               <div className="flex gap-2 p-3 bg-surface-bg border border-surface-border rounded-md">
                 <input
@@ -378,7 +374,6 @@ export const RoomFormPage = () => {
               </div>
             )}
 
-            {/* Upload Button & Dropzone */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <label className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-surface-border hover:border-teal-600 hover:bg-teal-50/50 rounded-md text-xs font-semibold text-navy-800 cursor-pointer transition-colors shadow-subtle">
                 {isUploadingImage ? (
@@ -406,7 +401,6 @@ export const RoomFormPage = () => {
               </span>
             </div>
 
-            {/* Uploaded Images Preview Grid */}
             {formData.images && formData.images.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                 {formData.images.map((imgUrl, idx) => (

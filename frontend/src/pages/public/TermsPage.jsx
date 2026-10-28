@@ -17,7 +17,6 @@ export const TermsPage = () => {
         </p>
       </div>
 
-      {/* Critical Non-Refundable Advance Policy Notice */}
       <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-5 flex items-start gap-3.5 shadow-subtle">
         <AlertTriangle className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
         <div className="text-xs text-amber-950 space-y-1.5 leading-relaxed">
@@ -68,7 +67,6 @@ export const TermsPage = () => {
           </p>
         </section>
 
-        {/* Dedicated Section 5: Non-Refundable Booking Advance Policy */}
         <section className="space-y-3 p-5 bg-surface-bg border border-surface-border rounded-lg">
           <h2 className="text-base font-bold text-navy-800 flex items-center gap-2">
             <span>5. Booking Advance &amp; Non-Refundability Policy</span>

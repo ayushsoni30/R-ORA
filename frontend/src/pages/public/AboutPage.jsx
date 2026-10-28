@@ -6,7 +6,6 @@ import { Button } from '../../components/common/Button';
 export const AboutPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Header */}
       <div className="space-y-4 border-b border-surface-border pb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-navy-50 border border-navy-100 rounded-md text-xs font-semibold text-navy-800 tracking-wide uppercase">
           <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
@@ -20,7 +19,6 @@ export const AboutPage = () => {
         </p>
       </div>
 
-      {/* The Problem & Our Solution */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white border border-surface-border rounded-lg p-6 shadow-card space-y-3">
           <h2 className="text-lg font-bold text-navy-800">The Student Challenge</h2>
@@ -37,7 +35,6 @@ export const AboutPage = () => {
         </div>
       </div>
 
-      {/* Core Principles */}
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-navy-800">Our Core Principles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -83,7 +80,6 @@ export const AboutPage = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
       <div className="bg-navy-800 text-white rounded-xl p-8 shadow-card flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
           <h3 className="text-xl font-bold">Ready to find your student room?</h3>

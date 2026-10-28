@@ -2,7 +2,6 @@ from typing import Literal
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
-# Data validation for user registration, login, and profile update
 
 class UserRegister(BaseModel):
     phone: str = Field(

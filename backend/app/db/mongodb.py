@@ -22,15 +22,12 @@ async def init_db_indexes():
     - Query acceleration indexes for room searches and dashboard counts
     """
     try:
-        # Unique email constraint
         await database.users.create_index("email", unique=True, name="uniq_user_email")
 
-        # Rooms indexes
         await database.rooms.create_index("owner_id", name="idx_rooms_owner_id")
         await database.rooms.create_index("location", name="idx_rooms_location")
         await database.rooms.create_index("status", name="idx_rooms_status")
 
-        # Bookings indexes
         await database.bookings.create_index(
             [("room_id", 1), ("student_id", 1)],
             unique=True,

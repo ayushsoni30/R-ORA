@@ -11,6 +11,7 @@ class RoomCreate(BaseModel):
     monthly_rent: float = Field(gt=0)
     max_occupants: int = Field(ge=1, le=20)
     expected_vacancy_date: date | None = None
+    images: list[str] | None = None
 
     @field_validator("expected_vacancy_date")
     @classmethod

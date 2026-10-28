@@ -15,6 +15,9 @@ class UserRegister(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
     role: Literal["student", "owner"] = "student"
+    gender: str | None = None
+    age: int | None = Field(default=None, ge=16, le=120)
+    profile_photo: str | None = None
 
     @field_validator("full_name")
     @classmethod
@@ -48,6 +51,9 @@ class UserProfileUpdate(BaseModel):
         pattern=r"^\+?[0-9]{10,15}$",
         description="Valid contact phone number containing 10-15 digits",
     )
+    gender: str | None = None
+    age: int | None = Field(default=None, ge=16, le=120)
+    profile_photo: str | None = None
 
     @field_validator("full_name")
     @classmethod

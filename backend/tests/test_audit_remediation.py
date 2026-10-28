@@ -5,6 +5,7 @@ from datetime import datetime, date, timedelta, timezone
 
 # Guarantee isolated test database
 os.environ["MONGODB_DATABASE"] = "roomora_test_audit"
+os.environ["MONGODB_URI"] = "mongodb://127.0.0.1:27017"
 
 # Ensure backend root is on sys.path
 backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -171,6 +172,13 @@ async def run_all_tests():
         # Pagination on rooms list
         r = await ac.get("/api/rooms/?skip=0&limit=5")
         record("Public rooms listing supports skip/limit pagination", r.status_code == 200 and len(r.json()) <= 5, f"Items returned: {len(r.json())}")
+
+        # Owner listings endpoint
+        r = await ac.get("/api/rooms/owner", headers=owner_headers)
+        record("Owner can fetch own listings via GET /api/rooms/owner", r.status_code == 200 and len(r.json()) >= 1 and r.json()[0]["id"] == room_id, f"Count: {len(r.json())}")
+
+        r = await ac.get("/api/rooms/owner", headers=student_headers)
+        record("Student forbidden from GET /api/rooms/owner (403)", r.status_code == 403, f"Status: {r.status_code}")
 
         # ---------------------------------------------------------
         # 5. Bookings: Bug Fix, Atomicity & Concurrency

@@ -38,6 +38,7 @@ async def create_room(
             if room.expected_vacancy_date
             else None
         ),
+        "images": room.images or [],
     }
 
     result = await database.rooms.insert_one(new_room)
@@ -53,6 +54,7 @@ async def create_room(
             "max_occupants": room.max_occupants,
             "status": "available",
             "expected_vacancy_date": new_room["expected_vacancy_date"],
+            "images": new_room["images"],
         },
     }
 
@@ -89,6 +91,7 @@ async def search_rooms(
             "max_occupants": room["max_occupants"],
             "status": room["status"],
             "expected_vacancy_date": room.get("expected_vacancy_date"),
+            "images": room.get("images", []),
         }
         for room in rooms
     ]
@@ -130,6 +133,38 @@ async def get_owner_dashboard(
     }
 
 
+@router.get("/owner")
+async def get_owner_rooms(
+    skip: int = Query(0, ge=0, description="Number of items to skip"),
+    limit: int = Query(settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE, description="Number of items to return"),
+    current_user: dict = Depends(get_current_user),
+):
+    if current_user.get("role") != "owner":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only owners can access their listings",
+        )
+
+    rooms = await database.rooms.find(
+        {"owner_id": current_user["_id"]}
+    ).skip(skip).limit(limit).to_list(length=limit)
+
+    return [
+        {
+            "id": str(room["_id"]),
+            "title": room["title"],
+            "description": room["description"],
+            "location": room["location"],
+            "monthly_rent": room["monthly_rent"],
+            "max_occupants": room["max_occupants"],
+            "status": room["status"],
+            "expected_vacancy_date": room.get("expected_vacancy_date"),
+            "images": room.get("images", []),
+        }
+        for room in rooms
+    ]
+
+
 @router.get("/")
 async def get_all_rooms(
     skip: int = Query(0, ge=0, description="Number of items to skip"),
@@ -147,6 +182,7 @@ async def get_all_rooms(
             "max_occupants": room["max_occupants"],
             "status": room["status"],
             "expected_vacancy_date": room.get("expected_vacancy_date"),
+            "images": room.get("images", []),
         }
         for room in rooms
     ]
@@ -181,6 +217,7 @@ async def get_room_by_id(room_id: str):
         "max_occupants": room["max_occupants"],
         "status": room["status"],
         "expected_vacancy_date": room.get("expected_vacancy_date"),
+        "images": room.get("images", []),
     }
 
 
@@ -216,6 +253,8 @@ async def update_room(
             else None
         ),
     }
+    if room.images is not None:
+        updated_data["images"] = room.images
 
     result = await database.rooms.update_one(
         {

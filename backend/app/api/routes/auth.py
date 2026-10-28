@@ -41,6 +41,9 @@ async def register_user(request: Request, user: UserRegister):
         "password": hashed_password,
         "role": user.role,
         "phone": user.phone,
+        "gender": user.gender,
+        "age": user.age,
+        "profile_photo": user.profile_photo,
     }
 
     try:
@@ -121,6 +124,9 @@ async def get_profile(
         "email": current_user["email"],
         "phone": current_user.get("phone"),
         "role": current_user["role"],
+        "gender": current_user.get("gender"),
+        "age": current_user.get("age"),
+        "profile_photo": current_user.get("profile_photo"),
     }
 
 
@@ -135,6 +141,9 @@ async def update_profile(
             "$set": {
                 "full_name": profile.full_name,
                 "phone": profile.phone,
+                "gender": profile.gender,
+                "age": profile.age,
+                "profile_photo": profile.profile_photo,
             }
         },
     )
@@ -143,4 +152,7 @@ async def update_profile(
         "message": "Profile updated successfully",
         "full_name": profile.full_name,
         "phone": profile.phone,
+        "gender": profile.gender,
+        "age": profile.age,
+        "profile_photo": profile.profile_photo,
     }

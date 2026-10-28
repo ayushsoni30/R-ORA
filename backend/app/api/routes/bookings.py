@@ -360,11 +360,17 @@ async def get_owner_bookings(
         {"owner_id": current_user["_id"]}
     ).skip(skip).limit(limit).to_list(length=limit)
 
-    return [
-        {
+    enriched_bookings = []
+    for booking in bookings:
+        student = await database.users.find_one({"_id": booking["student_id"]}, {"password": 0})
+        b_dict = {
             "id": str(booking["_id"]),
             "room_id": str(booking["room_id"]),
             "student_id": str(booking["student_id"]),
+            "student_name": student.get("full_name") if student else "Student Applicant",
+            "student_gender": student.get("gender") if student else None,
+            "student_age": student.get("age") if student else None,
+            "student_photo": student.get("profile_photo") if student else None,
             "status": booking["status"],
             "created_at": (
                 booking["created_at"].isoformat()
@@ -372,8 +378,12 @@ async def get_owner_bookings(
                 else booking.get("created_at")
             ),
         }
-        for booking in bookings
-    ]
+        if booking.get("status") == "accepted" and student:
+            b_dict["student_phone"] = student.get("phone")
+            b_dict["student_email"] = student.get("email")
+        enriched_bookings.append(b_dict)
+
+    return enriched_bookings
 
 
 @router.patch("/{booking_id}/cancel")
